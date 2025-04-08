@@ -20,6 +20,7 @@ export function Projects() {
       icon: <Database className="h-10 w-10" />,
       color: "bg-purple-100 dark:bg-purple-900/20",
       iconColor: "text-purple-500",
+      link: "https://github.com/ruffbuff/Hackathon-2024-OnChainTTT",
     },
     {
       title: t("projects.telegram.title"),
@@ -27,6 +28,7 @@ export function Projects() {
       icon: <MessageSquare className="h-10 w-10" />,
       color: "bg-blue-100 dark:bg-blue-900/20",
       iconColor: "text-blue-500",
+      link: "https://github.com/ruffbuff/Telegram-Ai-Bot",
     },
     {
       title: t("projects.software.title"),
@@ -34,6 +36,7 @@ export function Projects() {
       icon: <Code className="h-10 w-10" />,
       color: "bg-green-100 dark:bg-green-900/20",
       iconColor: "text-green-500",
+      link: "https://github.com/ruffbuff/LuaLevelMaker",
     },
   ]
 
@@ -68,15 +71,23 @@ export function Projects() {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="bg-card rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-border group"
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
+              className="bg-card rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-border/50 hover:border-primary/30 group h-[320px] flex flex-col"
             >
-              <div className={`p-6 ${project.color}`}>
-                <div className={`${project.iconColor} mb-4`}>{project.icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{project.description}</p>
-                <Button variant="outline" size="sm" className="group-hover:bg-background transition-colors">
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  View Project
+              <div className={`p-6 ${project.color} flex flex-col flex-grow transition-all duration-300 group-hover:saturate-125`}>
+                <div className={`${project.iconColor} mb-4 transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>{project.icon}</div>
+                <h3 className="text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-primary">{project.title}</h3>
+                <div className="flex-grow overflow-auto mb-4 pr-1 custom-scrollbar">
+                  <p className="text-sm text-muted-foreground group-hover:text-foreground/90 transition-colors duration-300">{project.description}</p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-auto bg-background/50 backdrop-blur-sm border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 transform group-hover:translate-y-0 flex items-center justify-center"
+                  onClick={() => window.open(project.link, '_blank', 'noopener,noreferrer')}
+                >
+                  <ExternalLink className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:rotate-12" />
+                  <span>View Project</span>
                 </Button>
               </div>
             </motion.div>

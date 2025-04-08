@@ -8,8 +8,8 @@ import { LanguageProvider } from "@/components/language-provider"
 const inter = Inter({ subsets: ["latin", "cyrillic"] })
 
 export const metadata: Metadata = {
-  title: "Sergei Avramtsuk | Portfolio",
-  description: "Personal portfolio of Sergei Avramtsuk - Blockchain & IT Developer",
+  title: "RuffBuff | Portfolio",
+  description: "Personal portfolio of RuffBuff - Blockchain & IT Developer",
     generator: 'v0.dev'
 }
 

@@ -32,6 +32,7 @@ export function Header() {
     { href: "#experience", label: t("nav.experience") },
     { href: "#projects", label: t("nav.projects") },
     { href: "#gallery", label: t("nav.gallery") },
+    { href: "#cv", label: t("nav.cv") },
   ]
 
   const handleNavClick = (href: string) => {

@@ -14,24 +14,24 @@ export function Experience() {
 
   const experiences = [
     {
-      title: "Blockchain & Crypto Basics",
-      period: "2018 - 2019",
-      description: "Initial exploration of blockchain technology, NFTs, and tokens. Learning fundamentals of cryptocurrency trading and investments.",
+      title: t("experience.basics.title"),
+      period: t("experience.basics.period"),
+      description: t("experience.basics.description"),
     },
     {
-      title: "Crypto Trading & Analysis",
-      period: "2019 - 2020",
-      description: "Active trading and market analysis. Deep dive into altcoins and market trends. Building first trading strategies.",
+      title: t("experience.trading.title"),
+      period: t("experience.trading.period"),
+      description: t("experience.trading.description"),
     },
     {
-      title: "Smart Contracts & Project Leadership",
-      period: "2020 - 2023",
-      description: "Smart contract development and project management. Leading blockchain initiatives. Initial steps in IT development.",
+      title: t("experience.smart.title"),
+      period: t("experience.smart.period"),
+      description: t("experience.smart.description"),
     },
     {
-      title: "Blockchain & IT Development",
-      period: "2023 - Present",
-      description: "Advanced smart contract development combined with full IT stack. Building custom solutions and managing personal projects.",
+      title: t("experience.fullstack.title"),
+      period: t("experience.fullstack.period"),
+      description: t("experience.fullstack.description"),
     }
   ]
 

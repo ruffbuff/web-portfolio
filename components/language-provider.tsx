@@ -68,18 +68,70 @@ export const translations: Translations = {
     ru: "Обо мне",
   },
   "about.description": {
-    en: "I'm a 22-year-old developer with diverse experience across construction, cleaning, marketing, moderation, content creation, blockchain, and IT. For the past 5 years, I've focused on blockchain and IT development. I've worked in various countries, for different companies, private individuals, and even led my own blockchain project (currently on hold). Currently, I'm actively engaged in programming, creating Telegram bots/software, and content creation.",
-    ru: "Мне 22 года, я разработчик с разнообразным опытом работы в сферах строительства, уборки, маркетинга, модерации, создания контента, блокчейна и ИТ. Последние 5 лет я сосредоточился на разработке блокчейна и ИТ. Я работал в разных странах, для разных компаний, частных лиц, а также руководил собственным блокчейн-проектом (в настоящее время приостановлен). В настоящее время я активно занимаюсь программированием, созданием Telegram-ботов/программного обеспечения и созданием контента.",
+    en: "I'm a passionate developer with expertise in blockchain technology and full-stack development. My journey in tech has been driven by curiosity and a desire to create innovative solutions.",
+    ru: "Я увлеченный разработчик с опытом в области блокчейн-технологий и full-stack разработки. Мой путь в технологиях движим любознательностью и желанием создавать инновационные решения.",
+  },
+  "about.experience.title": {
+    en: "Experience",
+    ru: "Опыт",
+  },
+  "about.experience.description": {
+    en: "5+ years in blockchain and IT development across multiple countries and companies.",
+    ru: "Более 5 лет опыта в разработке блокчейн и IT-решений в разных странах и компаниях.",
+  },
+  "about.education.title": {
+    en: "Education",
+    ru: "Образование",
+  },
+  "about.education.description": {
+    en: "Self-taught developer with continuous learning in blockchain technologies and software development.",
+    ru: "Самостоятольно обучающийся разработчик, постоянно совершенствующийся в блокчейн-технологиях и разработке ПО.",
+  },
+  "about.skills.title": {
+    en: "Skills",
+    ru: "Навыки",
+  },
+  "about.skills.description": {
+    en: "Proficient in blockchain development, smart contracts, and modern web technologies.",
+    ru: "Опыт в разработке блокчейна, смарт-контрактов и современных веб-технологий.",
+  },
+  "about.age": {
+    en: "22 years old",
+    ru: "22 года",
+  },
+  "about.location": {
+    en: "Originally from Estonia, currently based in Spain",
+    ru: "Родом из Эстонии, в настоящее время проживаю в Испании",
+  },
+  "about.profession": {
+    en: "Blockchain & IT Developer",
+    ru: "Блокчейн & ИТ Разработчик",
   },
 
   // Latest Work
-  "latest.title": {
+  "latest.work.title": {
     en: "Latest Work",
     ru: "Последние работы",
   },
-  "latest.subtitle": {
-    en: "Check out my most recent projects",
-    ru: "Ознакомьтесь с моими последними проектами",
+  "latest.work.subtitle": {
+    en: "GitHub Projects",
+    ru: "Проекты на GitHub",
+  },
+  "latest.work.description": {
+    en: "Check out my most recent projects and contributions on GitHub. These represent my current focus and areas of expertise.",
+    ru: "Ознакомьтесь с моими последними проектами и вкладами на GitHub. Они отражают мои текущие интересы и области экспертизы.",
+  },
+  "latest.work.github": {
+    en: "GitHub",
+    ru: "GitHub",
+  },
+  "latest.work.demo": {
+    en: "Live Demo",
+    ru: "Демо",
+  },
+  "latest.work.viewAll": {
+    en: "View All Projects",
+    ru: "Посмотреть все проекты",
   },
 
   // Skills
@@ -164,24 +216,37 @@ export const translations: Translations = {
     ru: "Блокчейн-проект",
   },
   "projects.blockchain.description": {
-    en: "A comprehensive blockchain solution (currently on hold).",
-    ru: "Комплексное блокчейн-решение (в настоящее время приостановлено).",
+    en: "A comprehensive blockchain solution/Web3 application/Smart contract.",
+    ru: "Комплексное блокчейн-решение/Веб3-приложение/Смарт-контракт.",
+  },
+
+  "cv.hackathons.constellation.link": {
+    en: "View project on GitHub",
+    ru: "Посмотреть проект на GitHub"
+  },
+  "cv.hackathons.blockmagic.link": {
+    en: "View project on GitHub",
+    ru: "Посмотреть проект на GitHub"
+  },
+  "cv.skills.github": {
+    en: "My GitHub Profile",
+    ru: "Мой профиль GitHub"
   },
   "projects.telegram.title": {
     en: "Telegram Bots",
     ru: "Telegram-боты",
   },
   "projects.telegram.description": {
-    en: "Various automated solutions for Telegram platform.",
-    ru: "Различные автоматизированные решения для платформы Telegram.",
+    en: "Various automated solutions for Telegram Groups/Channels/Bots.",
+    ru: "Различные автоматизированные решения для Telegram Групп/Каналов/Ботов.",
   },
   "projects.software.title": {
     en: "Custom Software",
     ru: "Индивидуальное ПО",
   },
   "projects.software.description": {
-    en: "Bespoke software solutions for specific client needs.",
-    ru: "Индивидуальные программные решения для конкретных потребностей клиентов.",
+    en: "Bespoke software solutions for specific client needs or personal projects.",
+    ru: "Индивидуальные программные решения для конкретных потребностей клиентов или личных проектов.",
   },
 
   // Gallery
@@ -203,6 +268,18 @@ export const translations: Translations = {
     en: "Sergei Avramtsuk",
     ru: "Сергей Аврамчук",
   },
+  "cv.contacts.title": {
+    en: "Contacts",
+    ru: "Контакты",
+  },
+  "cv.contacts.telegram": {
+    en: "Telegram: @ruffbuff",
+    ru: "Telegram: @ruffbuff",
+  },
+  "cv.contacts.email": {
+    en: "Email: ruffgreenw@gmail.com",
+    ru: "Email: ruffgreenw@gmail.com",
+  },
   "cv.age": {
     en: "22 years old",
     ru: "22 года",
@@ -220,8 +297,8 @@ export const translations: Translations = {
     ru: "Языки",
   },
   "cv.languages.russian": {
-    en: "Russian - C1 (Native)",
-    ru: "Русский - C1 (Родной)",
+    en: "Russian - C1",
+    ru: "Русский - C1",
   },
   "cv.languages.estonian": {
     en: "Estonian - B2",
@@ -260,8 +337,8 @@ export const translations: Translations = {
     ru: "Гибкие навыки",
   },
   "cv.skills.soft.items": {
-    en: "Project Management, Team Leadership, Problem Solving, Communication, Adaptability, Self-Learning",
-    ru: "Управление проектами, Лидерство в команде, Решение проблем, Коммуникация, Адаптивность, Самообучение",
+    en: "Development, Project Management, Team Leadership, Problem Solving, Communication, Adaptability, Self-Learning",
+    ru: "Разработка, Управление проектами, Лидерство в команде, Решение проблем, Коммуникация, Адаптивность, Самообучение",
   },
   "cv.education.title": {
     en: "Education & Self-Learning",

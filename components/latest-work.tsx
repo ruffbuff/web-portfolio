@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { Github, ExternalLink, Star, GitFork } from "lucide-react"
+import { GithubIcon, ExternalLink, Star, GitFork } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -104,14 +104,13 @@ export function LatestWork() {
       <div className="container px-4 mx-auto">
         <div className="text-center mb-12">
           <div className="inline-block px-4 py-1 bg-primary/10 backdrop-blur-sm rounded-full mb-4">
-            <span className="text-primary font-medium">GitHub Projects</span>
+            <span className="text-primary font-medium">{t("latest.work.subtitle")}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400">
-            Latest Work
+            {t("latest.work.title")}
           </h2>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            Check out my most recent projects and contributions on GitHub. These represent my current focus and areas of
-            expertise.
+            {t("latest.work.description")}
           </p>
         </div>
 
@@ -159,7 +158,10 @@ export function LatestWork() {
           ) : (
             repos.slice(0, 2).map((repo) => (
               <motion.div key={repo.name} variants={itemVariants}>
-                <Card className="h-full border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 bg-card/80 backdrop-blur-sm overflow-hidden group">
+                <Card 
+                  className="h-full border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 bg-card/80 backdrop-blur-sm overflow-hidden group cursor-pointer" 
+                  onClick={() => window.open(repo.html_url, "_blank", "noopener,noreferrer")}
+                >
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <CardHeader>
                     <div className="flex justify-between items-start">
@@ -204,18 +206,18 @@ export function LatestWork() {
                         className="flex-1"
                         onClick={() => window.open(repo.html_url, "_blank")}
                       >
-                        <Github className="h-4 w-4 mr-2" />
-                        GitHub
+                        <GithubIcon className="h-4 w-4 mr-2" />
+                        {t("latest.work.github")}
                       </Button>
-                      {repo.homepage && (
+                      {repo.homepage && typeof repo.homepage === 'string' && repo.homepage !== "" && (
                         <Button
-                          variant="outline"
+                          variant="ghost"
                           size="sm"
-                          className="flex-1"
-                          onClick={() => window.open(repo.homepage, "_blank")}
+                          className="ml-auto"
+                          onClick={() => window.open(repo.homepage as string, "_blank", "noopener,noreferrer")}
                         >
                           <ExternalLink className="h-4 w-4 mr-2" />
-                          Live Demo
+                          {t("latest.work.demo")}
                         </Button>
                       )}
                     </div>
@@ -233,8 +235,8 @@ export function LatestWork() {
             className="rounded-full px-8 border-primary/20 hover:bg-primary/5 transition-all duration-300"
             onClick={() => window.open("https://github.com/ruffbuff?tab=repositories", "_blank")}
           >
-            <Github className="h-5 w-5 mr-2" />
-            View All Projects
+            <GithubIcon className="h-5 w-5 mr-2" />
+            {t("latest.work.viewAll")}
           </Button>
         </div>
       </div>

@@ -8,14 +8,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
 export function CV() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
 
   const downloadCV = () => {
-    const { language } = useLanguage();
     const pdfUrl = `/cv/cv_${language === 'ru' ? 'ru' : 'en'}.pdf`;
     
     // Create a temporary link element
@@ -78,10 +77,26 @@ export function CV() {
                     <div className="pl-4 border-l-2 border-primary/20">
                       <p className="font-medium">{t("cv.hackathons.constellation.title")}</p>
                       <p className="text-sm mt-2">{t("cv.hackathons.constellation.description")}</p>
+                      <a 
+                        href="https://github.com/ruffbuff/Hackathon-2023-DynamicAi" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-sm text-primary hover:underline mt-1 inline-block"
+                      >
+                        {t("cv.hackathons.constellation.link")} →
+                      </a>
                     </div>
                     <div className="pl-4 border-l-2 border-primary/20">
                       <p className="font-medium">{t("cv.hackathons.blockmagic.title")}</p>
                       <p className="text-sm mt-2">{t("cv.hackathons.blockmagic.description")}</p>
+                      <a 
+                        href="https://github.com/ruffbuff/Hackathon-2024-OnChainTTT" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-sm text-primary hover:underline mt-1 inline-block"
+                      >
+                        {t("cv.hackathons.blockmagic.link")} →
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -93,6 +108,14 @@ export function CV() {
                       <p className="font-medium">{t("cv.skills.programming.title")}</p>
                       <p className="text-sm mt-2">{t("cv.skills.programming.primary")}</p>
                       <p className="text-sm mt-2">{t("cv.skills.programming.secondary")}</p>
+                      <a 
+                        href="https://github.com/ruffbuff" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-sm text-primary hover:underline mt-3 inline-block"
+                      >
+                        {t("cv.skills.github")} →
+                      </a>
                     </div>
                     <div className="pl-4 border-l-2 border-primary/20">
                       <p className="font-medium">{t("cv.skills.technical.title")}</p>

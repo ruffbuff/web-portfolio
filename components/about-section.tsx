@@ -28,24 +28,18 @@ export function AboutSection({ isVisible }: AboutSectionProps) {
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-background/50 backdrop-blur-sm p-6 rounded-xl border border-border/50 hover:shadow-md transition-all duration-300 hover:bg-background/70">
-            <h3 className="text-xl font-semibold mb-2">Experience</h3>
-            <p className="text-muted-foreground">
-              5+ years in blockchain and IT development across multiple countries and companies.
-            </p>
+            <h3 className="text-xl font-semibold mb-2">{t("about.experience.title")}</h3>
+            <p className="text-muted-foreground">{t("about.experience.description")}</p>
           </div>
 
           <div className="bg-background/50 backdrop-blur-sm p-6 rounded-xl border border-border/50 hover:shadow-md transition-all duration-300 hover:bg-background/70">
-            <h3 className="text-xl font-semibold mb-2">Education</h3>
-            <p className="text-muted-foreground">
-              Self-taught developer with continuous learning in blockchain technologies and software development.
-            </p>
+            <h3 className="text-xl font-semibold mb-2">{t("about.education.title")}</h3>
+            <p className="text-muted-foreground">{t("about.education.description")}</p>
           </div>
 
           <div className="bg-background/50 backdrop-blur-sm p-6 rounded-xl border border-border/50 hover:shadow-md transition-all duration-300 hover:bg-background/70">
-            <h3 className="text-xl font-semibold mb-2">Interests</h3>
-            <p className="text-muted-foreground">
-              Blockchain innovation, software development, content creation, and emerging technologies.
-            </p>
+            <h3 className="text-xl font-semibold mb-2">{t("about.skills.title")}</h3>
+            <p className="text-muted-foreground">{t("about.skills.description")}</p>
           </div>
         </div>
       </div>

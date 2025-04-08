@@ -15,14 +15,14 @@ export function Gallery() {
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
 
-  // Placeholder images - replace with your actual project images
+  // Project images
   const images = [
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
+    "/1.jpg",
+    "/2.jpg",
+    "/3.jpg",
+    "/4.jpg",
+    "/5.jpg",
+    "/6.jpg",
   ]
 
   const containerVariants = {
@@ -73,19 +73,29 @@ export function Gallery() {
 
         {/* Modal for full-size image view */}
         {selectedImage !== null && (
-          <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-            <div className="relative max-w-5xl w-full">
+          <div 
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 cursor-pointer"
+            onClick={(e) => {
+              // Close modal when clicking the background
+              if (e.target === e.currentTarget) {
+                setSelectedImage(null)
+              }
+            }}
+          >
+            <div className="relative max-w-[90vw] max-h-[90vh] w-full h-full">
               <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+                className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors z-10"
               >
                 <X className="h-8 w-8" />
               </button>
-              <img
-                src={images[selectedImage] || "/placeholder.svg"}
-                alt={`Project ${selectedImage + 1}`}
-                className="w-full h-auto rounded-lg"
-              />
+              <div className="w-full h-full flex items-center justify-center">
+                <img
+                  src={images[selectedImage] || "/placeholder.svg"}
+                  alt={`Project ${selectedImage + 1}`}
+                  className="max-w-full max-h-full object-contain rounded-lg cursor-default"
+                />
+              </div>
             </div>
           </div>
         )}
