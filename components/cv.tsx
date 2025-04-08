@@ -14,10 +14,17 @@ export function CV() {
     threshold: 0.1,
   })
 
-  // Function to generate and download CV as PDF
   const downloadCV = () => {
-    // In a real implementation, this would generate a PDF or download a pre-made one
-    alert("This would download the CV as PDF in a real implementation")
+    const { language } = useLanguage();
+    const pdfUrl = `/cv/cv_${language === 'ru' ? 'ru' : 'en'}.pdf`;
+    
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = `CV_${t('cv.name').replace(/\s+/g, '_')}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   return (
