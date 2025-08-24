@@ -56,38 +56,59 @@ export function Projects() {
   }
 
   return (
-    <section id="projects" className="py-20">
+    <section id="projects" className="py-24 relative">
       <div className="container px-4 mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">{t("projects.title")}</h2>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-primary">
+            {t("projects.title")}
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Featured projects showcasing my expertise in blockchain and software development
+          </p>
+        </div>
 
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {projects.map((project, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="bg-card rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-border/50 hover:border-primary/30 group h-[320px] flex flex-col"
+              className="group glass rounded-2xl p-6 card-hover border border-border/40 relative overflow-hidden h-[280px] flex flex-col"
             >
-              <div className={`p-6 ${project.color} flex flex-col flex-grow transition-all duration-300 group-hover:saturate-125`}>
-                <div className={`${project.iconColor} mb-4 transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>{project.icon}</div>
-                <h3 className="text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-primary">{project.title}</h3>
-                <div className="flex-grow overflow-auto mb-4 pr-1 custom-scrollbar">
-                  <p className="text-sm text-muted-foreground group-hover:text-foreground/90 transition-colors duration-300">{project.description}</p>
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <div className="relative z-10 flex flex-col h-full">
+                {/* Icon */}
+                <div className="mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors duration-200">
+                    {project.icon}
+                  </div>
                 </div>
+
+                {/* Content */}
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors duration-200">
+                  {project.title}
+                </h3>
+                
+                <p className="text-muted-foreground text-sm flex-grow mb-6 leading-relaxed">
+                  {project.description}
+                </p>
+
+                {/* Action */}
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="mt-auto bg-background/50 backdrop-blur-sm border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 transform group-hover:translate-y-0 flex items-center justify-center"
+                  className="w-full rounded-full border-border/40 hover:bg-primary/5 hover:border-primary/30 transition-all duration-200"
                   onClick={() => window.open(project.link, '_blank', 'noopener,noreferrer')}
                 >
-                  <ExternalLink className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:rotate-12" />
-                  <span>View Project</span>
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  View Project
                 </Button>
               </div>
             </motion.div>

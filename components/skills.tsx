@@ -55,45 +55,192 @@ export function Skills() {
   }
 
   return (
-    <section id="skills" className="py-20">
-      <div className="container px-4 mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">{t("skills.title")}</h2>
+    <section id="skills" className="py-16">
+      <div className="container px-4 mx-auto max-w-4xl">
+        <div className="space-y-8">
+          {/* Section Header */}
+          <h2 className="text-2xl font-bold text-foreground">
+            {t("skills.title")}
+          </h2>
+          
+          <div className="text-muted-foreground">
+            <p className="mb-4">
+              My main Tech stack is{" "}
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span>⚡</span>
+                <span className="text-primary font-semibold">Next.js</span>
+              </span>{" "}
+              framework with{" "}
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span>🎨</span>
+                <span className="text-primary font-semibold">TailwindCSS</span>
+              </span>{" "}
+              . CSS as a styling library, for the database I use{" "}
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span>🐘</span>
+                <span className="text-primary font-semibold">PostgreSQL</span>
+              </span>{" "}
+              deployed on{" "}
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span>🗃️</span>
+                <span className="text-primary font-semibold">NeonDB</span>
+              </span>{" "}
+              with{" "}
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span>⚡</span>
+                <span className="text-primary font-semibold">Drizzle</span>
+              </span>{" "}
+              as an ORM, for database management I use{" "}
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span>📊</span>
+                <span className="text-primary font-semibold">DataGrip</span>
+              </span>{" "}
+              .
+            </p>
+            
+            <p className="mb-6">
+              At last, but not least, I use{" "}
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span>⚡</span>
+                <span className="text-primary font-semibold">Cursor</span>
+              </span>{" "}
+              IDE for creating awesome projects. 🖤
+            </p>
+          </div>
 
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {skills.map((skillGroup, groupIndex) => (
-            <motion.div
-              key={groupIndex}
-              variants={itemVariants}
-              className="bg-card rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-border"
-            >
-              <h3 className="text-xl font-semibold mb-4">{skillGroup.category}</h3>
-              <div className="space-y-4">
-                {skillGroup.items.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      {skill.icon}
-                      <span>{skill.name}</span>
-                    </div>
-                    <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-primary rounded-full"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${skill.level}%` }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+          {/* Languages */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wider">
+              &lt;LANGUAGES/&gt;
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                JavaScript
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                TypeScript
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                Python
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                Solidity
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                HTML
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                CSS
+              </span>
+            </div>
+          </div>
+
+          {/* Frameworks */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wider">
+              &lt;FRAMEWORKS/&gt;
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-white rounded-full"></span>
+                React
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-black rounded-full"></span>
+                Next.js
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+                Node.js
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-cyan-400 rounded-full"></span>
+                TailwindCSS
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-purple-600 rounded-full"></span>
+                Framer Motion
+              </span>
+            </div>
+          </div>
+
+          {/* Tools */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wider">
+              &lt;TOOLS/&gt;
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                Drizzle
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                Prisma
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                NeonDB
+              </span>
+            </div>
+          </div>
+
+          {/* Platforms */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wider">
+              &lt;PLATFORMS/&gt;
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-black rounded-full"></span>
+                GitHub
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                Netlify
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-black rounded-full"></span>
+                Vercel
+              </span>
+            </div>
+          </div>
+
+          {/* Software */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wider">
+              &lt;SOFTWARE/&gt;
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                Cursor
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                DataGrip
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                Postman
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm">
+                <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                Figma
+              </span>
+            </div>
+          </div>
+
+          <div className="text-sm text-muted-foreground italic mt-8">
+            Few more... but secret hehehe :)
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -1,191 +1,93 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { motion } from "framer-motion"
 import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
+import { Github, Mail, ExternalLink } from "lucide-react"
 
 export function Hero() {
   const { t } = useLanguage()
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  // Blockchain-inspired animated background
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    let animationFrameId: number
-    let particles: Particle[] = []
-    let connections: Connection[] = []
-
-    // Define Particle class first
-    class Particle {
-      x: number
-      y: number
-      size: number
-      speedX: number
-      speedY: number
-
-      constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * canvas.height
-        this.size = Math.random() * 2 + 1
-        this.speedX = (Math.random() - 0.5) * 0.5
-        this.speedY = (Math.random() - 0.5) * 0.5
-      }
-
-      update() {
-        this.x += this.speedX
-        this.y += this.speedY
-
-        if (this.x > canvas.width) this.x = 0
-        else if (this.x < 0) this.x = canvas.width
-
-        if (this.y > canvas.height) this.y = 0
-        else if (this.y < 0) this.y = canvas.height
-      }
-
-      draw() {
-        if (!ctx) return
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-        ctx.fillStyle = "rgba(100, 100, 255, 0.5)"
-        ctx.fill()
-      }
-    }
-
-    class Connection {
-      particleA: Particle
-      particleB: Particle
-      distance: number
-
-      constructor(particleA: Particle, particleB: Particle) {
-        this.particleA = particleA
-        this.particleB = particleB
-        this.distance = 0
-      }
-
-      update() {
-        const dx = this.particleA.x - this.particleB.x
-        const dy = this.particleA.y - this.particleB.y
-        this.distance = Math.sqrt(dx * dx + dy * dy)
-      }
-
-      draw() {
-        if (!ctx) return
-        if (this.distance < 150) {
-          ctx.beginPath()
-          ctx.moveTo(this.particleA.x, this.particleA.y)
-          ctx.lineTo(this.particleB.x, this.particleB.y)
-          const opacity = 1 - this.distance / 150
-          ctx.strokeStyle = `rgba(100, 100, 255, ${opacity * 0.2})`
-          ctx.lineWidth = 1
-          ctx.stroke()
-        }
-      }
-    }
-
-    // Now define functions that use the classes
-    function initParticles() {
-      particles = []
-      connections = []
-
-      const particleCount = Math.min(Math.floor(window.innerWidth / 10), 100)
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle())
-      }
-
-      // Create connections between particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          connections.push(new Connection(particles[i], particles[j]))
-        }
-      }
-    }
-
-    // Set canvas dimensions
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      initParticles()
-    }
-
-    window.addEventListener("resize", resizeCanvas)
-    resizeCanvas()
-
-    function animate() {
-      if (!ctx) return
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-      // Update and draw particles
-      particles.forEach((particle) => {
-        particle.update()
-        particle.draw()
-      })
-
-      // Update and draw connections
-      connections.forEach((connection) => {
-        connection.update()
-        connection.draw()
-      })
-
-      animationFrameId = requestAnimationFrame(animate)
-    }
-
-    animate()
-
-    return () => {
-      window.removeEventListener("resize", resizeCanvas)
-      cancelAnimationFrame(animationFrameId)
-    }
-  }, [])
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-
-      <div className="absolute inset-0 bg-gradient-to-b from-background/30 to-background/90" />
-
-      <div className="container relative z-10 px-4 text-center flex flex-col items-center justify-center flex-grow">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-3xl mx-auto"
-        >
-          <div className="inline-block mb-4 px-4 py-1 bg-primary/10 backdrop-blur-sm rounded-full">
-            <span className="text-primary font-medium">Blockchain & IT Solutions</span>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400">
-            Web Portfolio
+    <section id="home" className="min-h-screen flex items-center justify-center py-16">
+      <div className="container px-4 mx-auto max-w-4xl">
+        <div className="text-left space-y-6">
+          {/* Main Title */}
+          <h1 className="text-5xl md:text-6xl font-bold text-foreground">
+            RUFFBUFF
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8">RuffBuff - Blockchain & IT Developer</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              size="lg"
-              className="rounded-full px-8 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-primary/20 hover:shadow-xl"
-              onClick={() => {
-                document.getElementById("latest-work")?.scrollIntoView({ behavior: "smooth" })
-              }}
-            >
-              {t("hero.cta")}
-            </Button>
-            <Button
+          
+          {/* Subtitle with typing effect styling */}
+          <div className="text-lg text-muted-foreground space-y-2">
+            <div>
+              <span className="text-muted-foreground">Yup! I'm a </span>
+              <span className="text-primary font-semibold">Blockchain Engineer</span>
+              <span className="text-muted-foreground">. Big deal, right? But wait — there's more! I'm not just any developer,</span>
+            </div>
+            <div>
+              <span className="text-muted-foreground">I'm a </span>
+              <span className="text-primary font-semibold">Full Stack Developer</span>
+              <span className="text-muted-foreground">. And if that wasn't enough, guess what?</span>
+            </div>
+            <div>
+              <span className="text-muted-foreground">maybe </span>
+              <span className="text-primary font-semibold">Freelancer</span>
+              <span className="text-muted-foreground">? Oh yeah, I've got that badge too!</span>
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="text-muted-foreground max-w-2xl">
+            <p>
+              I love both <span className="text-primary font-semibold">Blockchain</span> & <span className="text-primary font-semibold">Development</span>, so. That means I can 
+              create beautiful and functional websites. I'm always looking 
+              for new opportunities to learn and grow.
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-4 pt-4">
+            <Button 
+              className="bg-muted hover:bg-muted-foreground/20 text-foreground border border-border"
               variant="outline"
-              size="lg"
-              className="rounded-full px-8 border-primary/20 hover:bg-primary/5 transition-all duration-300"
-              onClick={() => {
-                window.open("https://github.com/ruffbuff", "_blank")
-              }}
             >
-              GitHub Profile
+              <span className="mr-2">🟢</span>
+              Available for Hire
+            </Button>
+            
+            <Button 
+              variant="outline"
+              className="border-border hover:bg-muted"
+              onClick={() => window.open("mailto:ruffgreenw@gmail.com", "_blank")}
+            >
+              <Mail className="w-4 h-4 mr-2" />
+              Email Me
             </Button>
           </div>
-        </motion.div>
+
+          {/* Tech Stack Icons */}
+          <div className="flex items-center gap-4 pt-8">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-muted rounded border border-border flex items-center justify-center">
+                <span className="text-xs font-mono">JS</span>
+              </div>
+              <span className="text-sm text-muted-foreground">JavaScript</span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-muted rounded border border-border flex items-center justify-center">
+                <span className="text-xs font-mono">PY</span>
+              </div>
+              <span className="text-sm text-muted-foreground">Python</span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-muted rounded border border-border flex items-center justify-center">
+                <span className="text-xs font-mono">BC</span>
+              </div>
+              <span className="text-sm text-muted-foreground">Blockchain</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -1,11 +1,12 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
+import { BottomNav } from "@/components/bottom-nav"
 
-const inter = Inter({ subsets: ["latin", "cyrillic"] })
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin", "cyrillic"] })
 
 export const metadata: Metadata = {
   title: "RuffBuff | Portfolio",
@@ -20,9 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <LanguageProvider>{children}</LanguageProvider>
+      <body className={jetbrainsMono.className}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <LanguageProvider>
+            {children}
+            <BottomNav />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
@@ -31,4 +35,3 @@ export default function RootLayout({
 
 
 
-import './globals.css'

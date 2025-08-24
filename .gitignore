@@ -26,3 +26,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 pnpm-lock.yaml
+
+CLAUDE.md
+.claude/
+
+PLAN.md
+CHANGES.md
+TODO.md
+HELP.md
