@@ -3,7 +3,8 @@
 import { useLanguage } from "@/components/language-provider"
 import { GitHubContributions } from "@/components/github-contributions"
 import { Button } from "@/components/ui/button"
-import { Mail, ExternalLink, Github } from "lucide-react"
+import { SvgIcon } from "@/components/ui/svg-icon"
+import { ExternalLink, Github } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { GitHubRepo } from "@/lib/github"
@@ -93,7 +94,7 @@ export default function Home() {
               className="border-border hover:bg-muted"
               onClick={() => window.open("mailto:ruffgreenw@gmail.com", "_blank")}
             >
-              <Mail className="w-4 h-4 mr-2" />
+              <SvgIcon src="/gmail.svg" size={16} className="mr-2" />
               Email Me
             </Button>
           </div>
@@ -139,7 +140,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3 px-4 py-2 bg-muted rounded border border-border">
               <div className="w-8 h-8 bg-primary/20 rounded flex items-center justify-center">
-                <span className="text-xs font-mono">💼</span>
+                <span className="text-xs font-mono">💻</span>
               </div>
               <div>
                 <div className="text-sm font-semibold text-foreground">Freelance</div>
@@ -159,10 +160,20 @@ export default function Home() {
 
             <div className="flex items-center gap-3 px-4 py-2 bg-muted rounded border border-border">
               <div className="w-8 h-8 bg-primary/20 rounded flex items-center justify-center">
+                <span className="text-xs font-mono">⛓️</span>
+              </div>
+              <div>
+                <div className="text-sm font-semibold text-foreground">Blockchain</div>
+                <div className="text-xs text-muted-foreground">2020 - 2023</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 px-4 py-2 bg-muted rounded border border-border">
+              <div className="w-8 h-8 bg-primary/20 rounded flex items-center justify-center">
                 <span className="text-xs font-mono">👷‍♀️</span>
               </div>
               <div>
-                <div className="text-sm font-semibold text-foreground">OTIS</div>
+                <div className="text-sm font-semibold text-foreground">Otis</div>
                 <div className="text-xs text-muted-foreground">2018 - 2019</div>
               </div>
             </div>
@@ -239,7 +250,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <span>🐦</span>
+                <SvgIcon src="/x.svg" size={16} />
                 Twitter
               </a>
               <a 
@@ -248,7 +259,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <span>📁</span>
+                <SvgIcon src="/github.svg" size={16} />
                 Github
               </a>
               <a 
@@ -257,14 +268,14 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <span>💬</span>
+                <SvgIcon src="/telegram.svg" size={16} />
                 Telegram
               </a>
               <a 
                 href="/cv" 
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <span>📄</span>
+                <SvgIcon src="/readdotcv.svg" size={16} />
                 CV
               </a>
             </div>

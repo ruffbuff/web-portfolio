@@ -40,7 +40,7 @@ export default function CVPage() {
               <h2 className="text-xl font-semibold text-foreground mb-4">RuffBuff</h2>
               <div className="space-y-2 text-sm text-muted-foreground">
                 <p><span className="text-foreground font-medium">Age:</span> 23 years old</p>
-                <p><span className="text-foreground font-medium">Location:</span> Estonia, Europe</p>
+                <p><span className="text-foreground font-medium">Location:</span> Europe</p>
                 <p><span className="text-foreground font-medium">Role:</span> Full Stack Developer & Blockchain Engineer</p>
                 <p><span className="text-foreground font-medium">Status:</span> Available for hire</p>
               </div>
@@ -67,8 +67,8 @@ export default function CVPage() {
                     <span className="text-xs text-muted-foreground">2022 - 2023</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Comprehensive program covering modern web development technologies including React, Node.js, databases, 
-                    and deployment strategies. Graduated with distinction and completed 12 real-world projects.
+                    Comprehensive online program covering modern web development technologies including React, Node.js, databases, 
+                    and deployment strategies. Completed with distinction and built 12 real-world projects.
                   </p>
                 </div>
                 
@@ -78,30 +78,30 @@ export default function CVPage() {
                     <span className="text-xs text-muted-foreground">2023 - 2024</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Advanced certification in Solidity programming, DeFi protocols, and blockchain architecture. 
+                    Advanced online certification in Solidity programming, DeFi protocols, and blockchain architecture. 
                     Focus on security best practices, gas optimization, and integration with Chainlink oracles.
                   </p>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">Computer Science & Systems Engineering</h4>
-                    <span className="text-xs text-muted-foreground">2019 - 2023</span>
+                    <h4 className="font-medium text-foreground">Self-Taught Computer Science & Systems Engineering</h4>
+                    <span className="text-xs text-muted-foreground">2019 - Present</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Self-directed learning program focusing on algorithms, data structures, system design, 
-                    and software engineering principles. Emphasis on practical application and project-based learning.
+                    Self-directed learning through online resources, documentation, and hands-on projects. 
+                    Focused on algorithms, data structures, system design, and software engineering principles through practical application.
                   </p>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">AI/ML Integration Certification</h4>
+                    <h4 className="font-medium text-foreground">AI/ML Integration Studies</h4>
                     <span className="text-xs text-muted-foreground">2024 - Present</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Current specialization in artificial intelligence and machine learning integration with web applications. 
-                    Focus on practical AI implementation, model optimization, and ethical AI development.
+                    Ongoing self-study in artificial intelligence and machine learning integration with web applications. 
+                    Learning through trial and error, practical AI implementation, and exploring various AI tools and frameworks.
                   </p>
                 </div>
               </div>
@@ -179,13 +179,13 @@ export default function CVPage() {
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-primary">Senior Full Stack Developer</h4>
+                    <h4 className="font-medium text-primary">Full Stack Developer</h4>
                     <span className="text-xs text-muted-foreground">2024 - Present</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Leading full-stack development projects with focus on performance optimization and user experience. 
-                    Architected and deployed scalable web applications, implemented CI/CD pipelines, and mentored junior developers.
-                    Achieved 20% performance improvements and 15% conversion rate increases through strategic optimizations.
+                    Developing full-stack web applications with focus on performance optimization and user experience. 
+                    Building scalable applications using modern technologies, implementing deployment pipelines through self-learning and experimentation.
+                    Achieved significant performance improvements through iterative testing and optimization.
                   </p>
                 </div>
                 
@@ -195,31 +195,31 @@ export default function CVPage() {
                     <span className="text-xs text-muted-foreground">2023 - 2024</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Specialized in developing secure and efficient smart contracts using Solidity. 
-                    Integrated Chainlink oracles and automation systems for DeFi protocols. 
-                    Successfully delivered multiple blockchain projects with zero security vulnerabilities.
+                    Self-taught blockchain development, specializing in secure smart contracts using Solidity. 
+                    Learned to integrate Chainlink oracles and DeFi protocols through documentation and hands-on practice. 
+                    Built multiple blockchain projects by experimenting with different approaches and learning from mistakes.
                   </p>
                 </div>
                 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">Freelance Developer & Consultant</h4>
+                    <h4 className="font-medium text-foreground">Freelance Developer</h4>
                     <span className="text-xs text-muted-foreground">2022 - Present</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Providing comprehensive development services including web applications, automation solutions, 
-                    and AI integration. Successfully completed 50+ projects for international clients with 100% satisfaction rate.
+                    Providing development services including web applications, automation solutions, and AI integration. 
+                    Learning new technologies as needed for each project, adapting quickly to client requirements through self-study and practical implementation.
                   </p>
                 </div>
                 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">Frontend Developer & Systems Analyst</h4>
+                    <h4 className="font-medium text-foreground">Self-Taught Developer</h4>
                     <span className="text-xs text-muted-foreground">2018 - 2022</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Started career in web development focusing on responsive design and user interface optimization. 
-                    Gained expertise in modern frameworks and agile development methodologies while working on diverse projects.
+                    Started programming journey through online resources and documentation. 
+                    Learned web development fundamentals, modern frameworks, and development methodologies through trial and error, building various personal projects.
                   </p>
                 </div>
               </div>
@@ -231,7 +231,7 @@ export default function CVPage() {
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <h4 className="font-medium text-primary">🏆 Constellation Hackathon 2023 - Winner</h4>
+                    <h4 className="font-medium text-primary">🏆 Constellation Hackathon 2023</h4>
                     <a 
                       href="https://github.com/ruffbuff/Hackathon-2023-DynamicAI" 
                       target="_blank" 
@@ -249,7 +249,7 @@ export default function CVPage() {
                 
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <h4 className="font-medium text-primary">🎮 BlockMagic Hackathon 2024 - Finalist</h4>
+                    <h4 className="font-medium text-primary">🎮 BlockMagic Hackathon 2024</h4>
                     <a 
                       href="https://github.com/ruffbuff/Hackathon-2024-OnChainTTT" 
                       target="_blank" 
