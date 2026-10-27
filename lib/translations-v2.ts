@@ -86,7 +86,6 @@ export const extraTranslations: Record<string, Entry> = {
   // ── /cv (roles and journey moved here from the removed /work page) ──
   "cv.roles.eyebrow": { en: "Places & roles", ru: "Места и роли" },
   "cv.roles.title": { en: "Roles", ru: "Роли" },
-  "cv.journey.eyebrow": { en: "Journey", ru: "Путь" },
   "cv.eyebrow": { en: "Resume", ru: "Резюме" },
   "cv.heading": { en: "CV.", ru: "Резюме." },
   "cv.description": { en: "My resume", ru: "Моё резюме" },

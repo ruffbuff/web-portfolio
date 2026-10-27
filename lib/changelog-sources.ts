@@ -48,4 +48,13 @@ export const changelogSources: ChangelogSource[] = [
     tags: ['Next.js', 'Tailwind CSS'],
     summary: 'This website: redesign, content and fixes.',
   },
+  {
+    slug: 'rea-oni-rust',
+    title: 'Rusty Colony',
+    repo: 'ruffbuff/rea-oni-rust',
+    visibility: 'private',
+    status: 'open',
+    tags: ['Rust', 'egui', 'Simulation'],
+    summary: 'Rust simulation of a 2D gas, liquid and heat grid: an unofficial colony-sim fan project with a CLI and a debug window.',
+  },
 ]

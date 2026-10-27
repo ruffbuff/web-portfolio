@@ -2,6 +2,13 @@
 
 Notable changes to the portfolio site, newest first.
 
+## 2026-10-27 — Fixes v5
+
+- CV: education is ordered newest first (by start year), like experience; competitions too. The duplicate old "Experience" block (journey) is gone from the page; the English and Russian PDFs have a single experience section.
+- Changelog cards show as many entries as fit the card height (up to 8, never cut in the middle of an entry), on mobile too.
+- New project in the changelog: Rusty Colony (`ruffbuff/rea-oni-rust`, private). The parser understands Keep a Changelog versions without dates (`## [1.18.3]`) and an "Earlier" section.
+- Changelog page: section headings Added, Changed, Fixed, Removed, Security and Deprecated are colour badges with icons, and their bullets match the colour.
+
 ## 2026-10-27 — Fixes v4
 
 - GitHub activity card: the heatmap now fills the whole card (responsive cells) and has stat tiles under it: active days, longest streak, best day and top month.

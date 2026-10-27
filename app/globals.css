@@ -556,3 +556,29 @@ html.has-cursor-fx .cursor-ring { display: block; }
 }
 
 @keyframes scroll-cue { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
+
+/* ---------- Changelog sections (Added / Changed / Fixed / ...) ---------- */
+.cl-section { --tone: oklch(0.8 0.1 250); }
+.cl-added { --tone: oklch(0.8 0.18 150); }
+.cl-changed { --tone: oklch(0.78 0.13 235); }
+.cl-fixed { --tone: oklch(0.82 0.16 75); }
+.cl-removed { --tone: oklch(0.7 0.21 25); }
+.cl-security { --tone: oklch(0.72 0.2 320); }
+.cl-deprecated { --tone: oklch(0.72 0.03 260); }
+.cl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+  padding: 0.2rem 0.65rem 0.2rem 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--tone) 40%, transparent);
+  background: color-mix(in oklab, var(--tone) 14%, transparent);
+  color: var(--tone);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.cl-section .prose-rb li::marker { color: var(--tone); }

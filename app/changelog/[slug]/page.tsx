@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, CloudOff, Github } from 'lucide-react'
+import { ChangelogBody } from '@/components/changelog-body'
 import { Markdown } from '@/components/markdown'
 import { Reveal } from '@/components/reveal'
 import { ScrollProgress } from '@/components/scroll-progress'
@@ -84,9 +85,9 @@ export default async function ChangelogPage({ params }: { params: Promise<{ slug
                 <span className="absolute -left-[1.85rem] top-7 size-3 rounded-full border-2 border-background bg-gradient-to-br from-[var(--amber)] to-[var(--pink)] shadow-[0_0_14px_var(--pink)] sm:-left-[2.85rem]" />
                 <Reveal>
                   <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-5 transition-colors hover:border-white/20 sm:p-7">
-                    <time dateTime={e.date} className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary"><DateText date={e.date} /></time>
-                    {e.title && <h3 className="mt-2 text-2xl font-medium tracking-[-0.04em] sm:text-3xl">{e.title}</h3>}
-                    {e.body && <div className="mt-4"><Markdown>{e.body}</Markdown></div>}
+                    {e.date && <time dateTime={e.date} className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary"><DateText date={e.date} /></time>}
+                    {e.title && <h3 className={`${e.date ? 'mt-2' : ''} text-2xl font-medium tracking-[-0.04em] sm:text-3xl`}>{e.title}</h3>}
+                    {e.body && <div className="mt-4"><ChangelogBody>{e.body}</ChangelogBody></div>}
                   </div>
                 </Reveal>
               </li>
@@ -103,7 +104,7 @@ export default async function ChangelogPage({ params }: { params: Promise<{ slug
                 {b.entries.map((e) => (
                   <li key={e.id}>
                     <a href={`#${e.id}`} className="-ml-px block border-l border-transparent pl-4 text-muted-foreground transition-colors hover:border-primary hover:text-foreground">
-                      <span className="block font-mono text-[11px]">{e.date}</span>
+                      {e.date && <span className="block font-mono text-[11px]">{e.date}</span>}
                       <span className="line-clamp-1">{e.title}</span>
                     </a>
                   </li>

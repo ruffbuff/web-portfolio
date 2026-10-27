@@ -5,7 +5,7 @@ export type { ChangelogStatus }
 
 export type ChangelogEntry = {
   id: string
-  date: string // YYYY-MM-DD
+  date: string // YYYY-MM-DD; empty for versions without a date ("## [1.2.0]")
   title: string
   body: string // markdown
 }
@@ -37,6 +37,10 @@ const STATUSES: ChangelogStatus[] = ['open', 'closed', 'soon']
 const ISO_RE = /^##[ \t]+(\d{4}-\d{2}-\d{2})(?:[ \t]*[—–-][ \t]*(.*?))?[ \t]*$/
 // Keep a Changelog: "## [1.2.0] - 2026-10-01", "## 1.2.0 — 2026-10-01", "## [1.2.0] - 2026-10-01 [YANKED]"
 const KAC_RE = /^##[ \t]+\[?v?([^\]\s]+?)\]?[ \t]*[—–-][ \t]*(\d{4}-\d{2}-\d{2})(?:[ \t]*\[?YANKED\]?)?[ \t]*$/i
+// Keep a Changelog without dates ("## [1.18.3]", "## v1.2"): the version is the title, the date stays empty and the order of the file is kept
+const VERSION_RE = /^##[ \t]+\[?(v?\d[^\]\s]*)\]?[ \t]*$/i
+// closing section of old history ("## Earlier")
+const EARLIER_RE = /^##[ \t]+((?:earlier|older|history)\b.*?)[ \t]*$/i
 const UNRELEASED_RE = /^##[ \t]+\[?unreleased\]?\b/i
 const LINK_DEF_RE = /^\[[^\]]+\]:[ \t]*\S+(?:[ \t]+(?:"[^"]*"|'[^']*'|\([^)]*\)))?[ \t]*$/
 
@@ -74,6 +78,15 @@ export function parseChangelog(markdown: string): { intro: string; entries: Chan
         raws.push(current)
         skipping = false
         continue
+      } else if ((m = line.match(VERSION_RE))) {
+        current = { date: '', title: /^\d/.test(m[1]) ? `v${m[1]}` : m[1], lines: [] }
+        raws.push(current)
+        skipping = false
+        continue
+      } else if (raws.length && !skipping && (m = line.match(EARLIER_RE))) {
+        current = { date: '', title: m[1].replace(/^./, (c) => c.toUpperCase()), lines: [] }
+        raws.push(current)
+        continue
       }
     }
     if (current) current.lines.push(line)
@@ -81,10 +94,12 @@ export function parseChangelog(markdown: string): { intro: string; entries: Chan
   }
 
   // newest first; the order of the file is kept for entries with the same date (stable sort)
-  raws.sort((a, b) => b.date.localeCompare(a.date))
+  // (a file with undated versions keeps its own order)
+  if (raws.every((r) => r.date)) raws.sort((a, b) => b.date.localeCompare(a.date))
   const used = new Set<string>()
   const entries = raws.map((r, i): ChangelogEntry => {
-    let id = `${r.date}-${(r.title || String(i)).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`.replace(/-$/, '')
+    const slug = (r.title || String(i)).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+    let id = (r.date ? `${r.date}-${slug}` : slug).replace(/-$/, '')
     while (used.has(id)) id += `-${i}`
     used.add(id)
     return { id, date: r.date, title: r.title, body: r.lines.join('\n').trim() }
@@ -169,7 +184,7 @@ async function build(src: ChangelogSource): Promise<Changelog> {
   const loaded = await loadFile(src)
   if (!loaded.ok) return { ...base, error: loaded.error }
   const { intro, entries } = parseChangelog(loaded.text)
-  return { ...base, intro, entries, started: entries[entries.length - 1]?.date, updated: entries[0]?.date, error: entries.length ? undefined : 'empty' }
+  return { ...base, intro, entries, started: entries[entries.length - 1]?.date || undefined, updated: entries[0]?.date || undefined, error: entries.length ? undefined : 'empty' }
 }
 
 /** All changelogs from lib/changelog-sources.ts; never throws (a failed project gets `error`). Order: as in the config. */
