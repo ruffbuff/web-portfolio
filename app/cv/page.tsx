@@ -1,275 +1,142 @@
-"use client"
+import type { Metadata } from 'next'
+import { Download } from 'lucide-react'
+import { T } from '@/components/language-provider'
+import { PageHero } from '@/components/page-hero'
+import { Reveal } from '@/components/reveal'
+import { SectionHeading } from '@/components/section-heading'
+import { Spotlight } from '@/components/spotlight'
+import {
+  cvContacts, cvCoreLanguages, cvEducation, cvExperience, cvHackathons, cvPersonal, cvSkillBlocks, cvSpoken,
+} from '@/lib/cv-data'
+import { site } from '@/lib/site'
+import { cn } from '@/lib/utils'
 
-import { useLanguage } from "@/components/language-provider"
-import { Download, ExternalLink } from "lucide-react"
-import { Button } from "@/components/ui/button"
+export const metadata: Metadata = { title: 'CV' }
 
-export default function CVPage() {
-  const { t, language } = useLanguage()
+type Item = { title: string; period: string; text: string; highlight?: boolean }
 
-  const handleDownload = () => {
-    const cvUrl = language === 'ru' ? '/cv/cv_ru.pdf' : '/cv/cv_en.pdf'
-    const link = document.createElement('a')
-    link.href = cvUrl
-    link.download = `RuffBuff_CV_${language.toUpperCase()}.pdf`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
-
+function Timeline({ items }: { items: Item[] }) {
   return (
-    <div className="min-h-screen py-16">
-      <div className="container px-4 mx-auto max-w-4xl">
-        <div className="space-y-8">
-          {/* Page Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">Curriculum Vitae</h1>
-              <p className="text-muted-foreground italic">My resume</p>
+    <ol className="relative space-y-5 pl-6 sm:pl-10">
+      <span className="tl-line" aria-hidden />
+      {items.map((it) => (
+        <li key={it.title} className="relative">
+          <span className="absolute -left-[1.85rem] top-7 size-3 rounded-full border-2 border-background bg-gradient-to-br from-[var(--amber)] to-[var(--pink)] shadow-[0_0_14px_var(--pink)] sm:-left-[2.85rem]" />
+          <Reveal>
+            <div className={cn('rounded-3xl border bg-gradient-to-br from-white/[0.05] to-transparent p-5 transition-colors hover:border-white/20 sm:p-6', it.highlight ? 'border-primary/30' : 'border-white/10')}>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary">{it.period}</p>
+              <h3 className="mt-2 text-xl font-medium tracking-[-0.03em] sm:text-2xl">{it.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">{it.text}</p>
             </div>
-            <Button onClick={handleDownload} className="flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              {t("cv.download")}
-            </Button>
-          </div>
+          </Reveal>
+        </li>
+      ))}
+    </ol>
+  )
+}
 
-          {/* CV Content */}
-          <div className="space-y-8">
-            {/* Personal Info */}
-            <div>
-              <h2 className="text-xl font-semibold text-foreground mb-4">RuffBuff</h2>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p><span className="text-foreground font-medium">Age:</span> 23 years old</p>
-                <p><span className="text-foreground font-medium">Location:</span> Europe</p>
-                <p><span className="text-foreground font-medium">Role:</span> Full Stack Developer & Blockchain Engineer</p>
-                <p><span className="text-foreground font-medium">Status:</span> Available for hire</p>
+function KeyValue({ rows }: { rows: { k: string; v: string; href?: string }[] }) {
+  return (
+    <dl className="space-y-3 text-sm">
+      {rows.map((r) => (
+        <div key={r.k} className="flex flex-col gap-0.5">
+          <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{r.k}</dt>
+          <dd className="break-words">
+            {r.href ? (
+              <a href={r.href} target={r.href.startsWith('mailto:') ? undefined : '_blank'} rel="noopener noreferrer" className="underline-offset-4 transition-colors hover:text-primary hover:underline">{r.v}</a>
+            ) : (
+              r.v
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+export default function CvPage() {
+  return (
+    <>
+      <PageHero eyebrow={<T k="cv.eyebrow" />} title={<T k="cv.heading" />} description={<T k="cv.description" />} />
+
+      <div className="grid gap-12 lg:grid-cols-[18rem_1fr]">
+        {/* Sidebar: personal info, contacts, spoken languages, download */}
+        <aside className="space-y-4 lg:sticky lg:top-28 lg:self-start">
+          <Spotlight className="rounded-3xl">
+            <span className="spot-ring" />
+            <div className="spot-body space-y-8 p-6">
+              <div>
+                <p className="eyebrow mb-4"><T k="cv.personal" /></p>
+                <KeyValue rows={cvPersonal} />
+              </div>
+              <div>
+                <p className="eyebrow mb-4"><T k="cv.contacts" /></p>
+                <KeyValue rows={cvContacts} />
+              </div>
+              <div>
+                <p className="eyebrow mb-4"><T k="cv.spoken" /></p>
+                <KeyValue rows={cvSpoken} />
               </div>
             </div>
+          </Spotlight>
+          {/* The RU PDF (cv_ru.pdf) is not in the repo: both languages download the English CV. */}
+          <a href={site.cvFile} download="RuffBuff_CV.pdf" className="btn-aurora w-full justify-center">
+            <Download className="size-4" /> <T k="cv.download" />
+          </a>
+        </aside>
 
-            {/* Contacts */}
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Contact Information</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p><span className="text-foreground font-medium">Email:</span> ruffgreenw@gmail.com</p>
-                <p><span className="text-foreground font-medium">Telegram:</span> @ruffbuff</p>
-                <p><span className="text-foreground font-medium">GitHub:</span> github.com/ruffbuff</p>
-                <p><span className="text-foreground font-medium">Twitter:</span> @RuffBuff_</p>
-              </div>
+        <div className="min-w-0 space-y-28 sm:space-y-36">
+          <section aria-label="Experience">
+            <SectionHeading index="01" eyebrow={<T k="cv.experience.eyebrow" />} title={<T k="cv.experience.title" />} />
+            <Timeline items={cvExperience} />
+          </section>
+
+          <section aria-label="Education">
+            <SectionHeading index="02" eyebrow={<T k="cv.education.eyebrow" />} title={<T k="cv.education.title" />} />
+            <Timeline items={cvEducation} />
+          </section>
+
+          <section aria-label="Skills">
+            <SectionHeading index="03" eyebrow={<T k="cv.skills.eyebrow" />} title={<T k="cv.skills.title" />} />
+            <div className="grid gap-3 sm:grid-cols-2">
+              {cvCoreLanguages.map((l) => (
+                <Reveal key={l.name}>
+                  <div className="h-full rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                    <h3 className="text-lg font-medium tracking-[-0.03em]">{l.name}</h3>
+                    <p className="mt-1.5 text-sm text-muted-foreground">{l.text}</p>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-
-            {/* Education & Certifications */}
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Education & Certifications</h3>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-primary">Full Stack Web Development Specialization</h4>
-                    <span className="text-xs text-muted-foreground">2022 - 2023</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Comprehensive online program covering modern web development technologies including React, Node.js, databases, 
-                    and deployment strategies. Completed with distinction and built 12 real-world projects.
-                  </p>
-                </div>
-                
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-primary">Blockchain & Smart Contract Development</h4>
-                    <span className="text-xs text-muted-foreground">2023 - 2024</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Advanced online certification in Solidity programming, DeFi protocols, and blockchain architecture. 
-                    Focus on security best practices, gas optimization, and integration with Chainlink oracles.
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">Self-Taught Computer Science & Systems Engineering</h4>
-                    <span className="text-xs text-muted-foreground">2019 - Present</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Self-directed learning through online resources, documentation, and hands-on projects. 
-                    Focused on algorithms, data structures, system design, and software engineering principles through practical application.
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">AI/ML Integration Studies</h4>
-                    <span className="text-xs text-muted-foreground">2024 - Present</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Ongoing self-study in artificial intelligence and machine learning integration with web applications. 
-                    Learning through trial and error, practical AI implementation, and exploring various AI tools and frameworks.
-                  </p>
-                </div>
-              </div>
+            <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
+              {cvSkillBlocks.map((b) => (
+                <Reveal key={b.title} className="grid gap-2 py-5 sm:grid-cols-[13rem_1fr] sm:gap-8">
+                  <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">{b.title}</h3>
+                  <p className="text-sm leading-6">{b.text}</p>
+                </Reveal>
+              ))}
             </div>
+          </section>
 
-            {/* Skills */}
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Technical Skills</h3>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium text-foreground mb-2">Core Programming Languages</h4>
-                  <div className="space-y-1 text-sm text-muted-foreground">
-                    <p><span className="text-primary font-semibold">Python</span> - Backend development, automation, AI/ML integration</p>
-                    <p><span className="text-primary font-semibold">JavaScript/TypeScript</span> - Full-stack development, modern frameworks</p>
-                    <p><span className="text-primary font-semibold">Solidity</span> - Smart contract development, DeFi protocols</p>
-                    <p><span className="text-primary font-semibold">C++, Lua, Bash</span> - Systems programming and scripting</p>
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-foreground mb-2">Frontend & Frameworks</h4>
-                  <p className="text-sm text-muted-foreground">
-                    React.js, Next.js 15, Vite, TailwindCSS, Framer Motion, Web3 integration, 
-                    Responsive design, Performance optimization
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-foreground mb-2">Backend & Databases</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Node.js, Supabase, NeonDB, MySQL, PostgreSQL, Drizzle ORM, Prisma, 
-                    RESTful APIs, GraphQL, Authentication systems
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-foreground mb-2">DevOps & Tools</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Arch Linux, Docker, Git, GitHub Actions, Vercel, Netlify, Postman, 
-                    DataGrip, Neovim, CI/CD pipelines
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-foreground mb-2">Blockchain & Web3</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Smart contract development, Chainlink integration, DeFi protocols, 
-                    Polygon blockchain, Web3.js, Ethereum ecosystem
-                  </p>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-foreground mb-2">AI & Emerging Technologies</h4>
-                  <p className="text-sm text-muted-foreground">
-                    AI model integration, Machine Learning workflows, WebAssembly, 
-                    Exploring: Rust, Go, C#, Unreal Engine, Blender
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Languages */}
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Languages</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p><span className="text-foreground font-medium">Russian:</span> Native speaker</p>
-                <p><span className="text-foreground font-medium">Estonian:</span> Fluent (B2+ level)</p>
-                <p><span className="text-foreground font-medium">English:</span> Advanced (B1 level)</p>
-              </div>
-            </div>
-
-            {/* Experience */}
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Professional Experience</h3>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-primary">Full Stack Developer</h4>
-                    <span className="text-xs text-muted-foreground">2024 - Present</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Developing full-stack web applications with focus on performance optimization and user experience. 
-                    Building scalable applications using modern technologies, implementing deployment pipelines through self-learning and experimentation.
-                    Achieved significant performance improvements through iterative testing and optimization.
-                  </p>
-                </div>
-                
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-primary">Blockchain Engineer & Smart Contract Developer</h4>
-                    <span className="text-xs text-muted-foreground">2023 - 2024</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Self-taught blockchain development, specializing in secure smart contracts using Solidity. 
-                    Learned to integrate Chainlink oracles and DeFi protocols through documentation and hands-on practice. 
-                    Built multiple blockchain projects by experimenting with different approaches and learning from mistakes.
-                  </p>
-                </div>
-                
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">Freelance Developer</h4>
-                    <span className="text-xs text-muted-foreground">2022 - Present</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Providing development services including web applications, automation solutions, and AI integration. 
-                    Learning new technologies as needed for each project, adapting quickly to client requirements through self-study and practical implementation.
-                  </p>
-                </div>
-                
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">Self-Taught Developer</h4>
-                    <span className="text-xs text-muted-foreground">2018 - 2022</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Started programming journey through online resources and documentation. 
-                    Learned web development fundamentals, modern frameworks, and development methodologies through trial and error, building various personal projects.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Hackathons & Achievements */}
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Hackathons & Notable Projects</h3>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <h4 className="font-medium text-primary">🏆 Constellation Hackathon 2023</h4>
-                    <a 
-                      href="https://github.com/ruffbuff/Hackathon-2023-DynamicAI" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
+          <section aria-label="Hackathons">
+            <SectionHeading index="04" eyebrow={<T k="cv.hackathons.eyebrow" />} title={<T k="cv.hackathons.title" />} />
+            <div className="grid gap-4 md:grid-cols-2">
+              {cvHackathons.map((h) => (
+                <Reveal key={h.title}>
+                  <Spotlight className="spot-lift h-full rounded-3xl">
+                    <span className="spot-ring" />
+                    <a href={h.href} target="_blank" rel="noopener noreferrer" data-cursor="hot" className="spot-body block h-full p-6">
+                      <span className="text-3xl" aria-hidden>{h.emoji}</span>
+                      <h3 className="mt-4 text-xl font-medium tracking-[-0.03em]">{h.title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-muted-foreground">{h.text}</p>
                     </a>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Developed "DynamicAI" - An innovative blockchain-based AI solution that integrates machine learning 
-                    with smart contracts. Won first place among 200+ participants for technical innovation and implementation quality.
-                  </p>
-                </div>
-                
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <h4 className="font-medium text-primary">🎮 BlockMagic Hackathon 2024</h4>
-                    <a 
-                      href="https://github.com/ruffbuff/Hackathon-2024-OnChainTTT" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Created "OnChainTTT" - A fully decentralized Tic-Tac-Toe game on Polygon blockchain. 
-                    Implemented Chainlink VRF for provably fair randomness and automated game state management. 
-                    Secured top 10 position in competitive gaming track.
-                  </p>
-                </div>
-              </div>
+                  </Spotlight>
+                </Reveal>
+              ))}
             </div>
-          </div>
+          </section>
         </div>
       </div>
-    </div>
+    </>
   )
 }

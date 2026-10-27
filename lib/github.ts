@@ -1,3 +1,5 @@
+export class GitHubConfigError extends Error {}
+
 export interface GitHubUser {
   login: string
   name: string
@@ -44,15 +46,13 @@ const GITHUB_API_URL = 'https://api.github.com'
 const username = process.env.GITHUB_USERNAME || 'ruffbuff'
 
 async function fetchGitHub(endpoint: string): Promise<any> {
+  // The token is optional for REST calls (public data): without it the anonymous rate limit applies
+  // (60 requests/hour per IP), which is enough for local development.
   const token = process.env.GITHUB_TOKEN
-  
-  if (!token) {
-    throw new Error('GITHUB_TOKEN environment variable is required')
-  }
 
   const response = await fetch(`${GITHUB_API_URL}${endpoint}`, {
     headers: {
-      'Authorization': `token ${token}`,
+      ...(token ? { 'Authorization': `token ${token}` } : {}),
       'Accept': 'application/vnd.github.v3+json',
       'User-Agent': 'RuffBuff-Portfolio',
     },
@@ -111,10 +111,11 @@ export async function getLanguageStats(): Promise<LanguageStats> {
 }
 
 export async function getContributionData(year?: number): Promise<GitHubContribution[]> {
+  // The GraphQL API requires authentication (no anonymous access): set GITHUB_TOKEN in .env.local / Vercel env.
   const token = process.env.GITHUB_TOKEN
-  
+
   if (!token) {
-    throw new Error('GITHUB_TOKEN environment variable is required')
+    throw new GitHubConfigError('GITHUB_TOKEN environment variable is required for contribution data')
   }
 
   // Calculate date range for the specified year

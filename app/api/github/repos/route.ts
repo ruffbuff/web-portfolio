@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     console.error('Error fetching GitHub repos:', error)
     return NextResponse.json(
       { error: 'Failed to fetch repositories' },
-      { status: 500 }
+      { status: 502 }
     )
   }
 }

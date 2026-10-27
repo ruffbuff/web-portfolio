@@ -9,7 +9,7 @@ export async function GET() {
     console.error('Error fetching GitHub languages:', error)
     return NextResponse.json(
       { error: 'Failed to fetch language statistics' },
-      { status: 500 }
+      { status: 502 }
     )
   }
 }

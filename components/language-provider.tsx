@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
+import { extraTranslations } from "@/lib/translations-v2"
 
 type Language = "en" | "ru"
 
@@ -450,6 +451,9 @@ export const translations: Translations = {
     en: "Contact Me",
     ru: "Связаться со мной",
   },
+
+  // Redesign v2 strings (nav, home, work, skills, backlogs, ...) live in lib/translations-v2.ts
+  ...extraTranslations,
 }
 
 type LanguageContextType = {
@@ -474,6 +478,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // Save language preference to localStorage
   useEffect(() => {
     localStorage.setItem("language", language)
+    document.documentElement.lang = language
   }, [language])
 
   const t = (key: string): string => {
@@ -495,3 +500,35 @@ export function useLanguage() {
   return context
 }
 
+
+/** Renders a translation inside server components: <T k="nav.work" /> */
+export function T({ k }: { k: string }) {
+  const { t } = useLanguage()
+  return <>{t(k)}</>
+}
+
+/** Renders an inline { en, ru } value (content that lives in lib/site.ts, lib/cv-data.ts, ...) */
+export function Bi({ v }: { v: { en: string; ru: string } }) {
+  const { language } = useLanguage()
+  return <>{v[language]}</>
+}
+
+/** Translation with **highlighted** parts: <Rich k="home.about.1" /> */
+export function Rich({ k }: { k: string }) {
+  const { t } = useLanguage()
+  return (
+    <>
+      {t(k)
+        .split("**")
+        .map((part, i) =>
+          i % 2 ? (
+            <span key={i} className="font-semibold text-primary">
+              {part}
+            </span>
+          ) : (
+            <span key={i}>{part}</span>
+          ),
+        )}
+    </>
+  )
+}
