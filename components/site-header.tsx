@@ -8,10 +8,8 @@ import { cn } from '@/lib/utils'
 import { useLanguage } from '@/components/language-provider'
 
 const links = [
-  { href: '/work', key: 'nav.work' },
   { href: '/projects', key: 'nav.projects' },
-  { href: '/skills', key: 'nav.skills' },
-  { href: '/backlogs', key: 'nav.backlogs' },
+  { href: '/changelog', key: 'nav.changelog' },
   { href: '/cv', key: 'nav.cv' },
 ]
 

@@ -40,7 +40,7 @@ function buildWeeks(year: number, data: GitHubContribution[]): Cell[][] {
   return weeks
 }
 
-type State = { status: "loading" } | { status: "error" } | { status: "ok"; data: GitHubContribution[] }
+type State = { status: "loading" } | { status: "error"; code?: string } | { status: "ok"; data: GitHubContribution[] }
 
 export function GitHubContributions() {
   const { t, language } = useLanguage()
@@ -54,8 +54,11 @@ export function GitHubContributions() {
     const ctrl = new AbortController()
     setState({ status: "loading" })
     fetch(`/api/github/contributions?year=${year}`, { signal: ctrl.signal })
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((data: GitHubContribution[]) => setState({ status: "ok", data }))
+      .then(async (r) => {
+        if (r.ok) return setState({ status: "ok", data: (await r.json()) as GitHubContribution[] })
+        const body = await r.json().catch(() => null)
+        setState({ status: "error", code: body?.code })
+      })
       .catch((e) => {
         if (e?.name !== "AbortError") setState({ status: "error" })
       })
@@ -147,7 +150,7 @@ export function GitHubContributions() {
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-3 text-[11px] text-muted-foreground">
-        <span className="min-w-0 truncate">{state.status === "error" ? t("github.hint") : ""}</span>
+        <span className="min-w-0">{state.status === "error" ? t(state.code === "no-token" && process.env.NODE_ENV !== "production" ? "github.hint.token" : "github.hint") : ""}</span>
         <div className="flex shrink-0 items-center gap-1.5">
           <span>{t("github.less")}</span>
           {LEVELS.map((l, i) => (

@@ -390,11 +390,11 @@ html.has-cursor-fx .cursor-ring { display: block; }
   display: flex;
   flex: none;
   align-items: center;
-  gap: 2.5rem;
-  padding-right: 2.5rem;
-  animation: marquee 38s linear infinite;
+  gap: 0.875rem;
+  padding-right: 0.875rem;
+  animation: marquee 60s linear infinite;
 }
-.marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 46s; }
+.marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 70s; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 @keyframes marquee { to { transform: translateX(-100%); } }
 
@@ -470,7 +470,7 @@ html.has-cursor-fx .cursor-ring { display: block; }
   animation-delay: calc(var(--i, 0) * 90ms);
 }
 
-/* ---------- Row (backlog list) ---------- */
+/* ---------- Row (link list) ---------- */
 .row-link { position: relative; isolation: isolate; }
 .row-link::before {
   content: '';
@@ -485,7 +485,7 @@ html.has-cursor-fx .cursor-ring { display: block; }
 }
 .row-link:hover::before { opacity: 1; transform: none; }
 
-/* ---------- Timeline (backlog detail) ---------- */
+/* ---------- Timeline (changelog detail) ---------- */
 .tl-line {
   position: absolute;
   left: 0; top: 0; bottom: 0;
@@ -499,11 +499,15 @@ html.has-cursor-fx .cursor-ring { display: block; }
   .reveal, .word > span { animation: none; opacity: 1; transform: none; }
   [data-rv] { opacity: 1; transform: none; filter: none; transition: none; }
   .aurora, .text-aurora, .orb, .orb::after, .chip-float, .marquee-track { animation: none; }
+  /* running lines stand still: a static, wrapped cloud instead of a clipped strip */
+  .marquee { flex-wrap: wrap; justify-content: center; overflow: visible; mask-image: none; -webkit-mask-image: none; padding-inline: 1rem; }
+  .marquee-track { flex-wrap: wrap; justify-content: center; padding-right: 0; }
+  .marquee-track[aria-hidden="true"] { display: none; }
   .spot, .spot-lift:hover, .pv-window, .group:hover .pv-window, .preview::before { transition: none; transform: none; }
   .magnetic { transition: none; }
 }
 
-/* ---------- Markdown (backlog entries) ---------- */
+/* ---------- Markdown (changelog entries) ---------- */
 .prose-rb {
   @apply text-[15px] leading-7 text-foreground/85;
 }

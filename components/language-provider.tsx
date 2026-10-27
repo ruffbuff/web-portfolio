@@ -28,10 +28,6 @@ export const translations: Translations = {
     en: "Latest Work",
     ru: "Последние работы",
   },
-  "nav.skills": {
-    en: "Skills",
-    ru: "Навыки",
-  },
   "nav.experience": {
     en: "Experience",
     ru: "Опыт",
@@ -133,24 +129,6 @@ export const translations: Translations = {
   "latest.work.viewAll": {
     en: "View All Projects",
     ru: "Посмотреть все проекты",
-  },
-
-  // Skills
-  "skills.title": {
-    en: "Skills",
-    ru: "Навыки",
-  },
-  "skills.blockchain": {
-    en: "Blockchain",
-    ru: "Блокчейн",
-  },
-  "skills.development": {
-    en: "Development",
-    ru: "Разработка",
-  },
-  "skills.content": {
-    en: "Content Creation",
-    ru: "Создание контента",
   },
 
   // Experience
@@ -452,7 +430,7 @@ export const translations: Translations = {
     ru: "Связаться со мной",
   },
 
-  // Redesign v2 strings (nav, home, work, skills, backlogs, ...) live in lib/translations-v2.ts
+  // Redesign v2 strings (nav, home, projects, changelog, cv, ...) live in lib/translations-v2.ts
   ...extraTranslations,
 }
 

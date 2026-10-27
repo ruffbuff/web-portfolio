@@ -89,13 +89,13 @@ export const cvExperience: Item[] = [
 
 export const cvHackathons = [
   {
-    emoji: "🏆",
+    icon: "Trophy" as const,
     title: "Constellation Hackathon 2023",
     href: "https://github.com/ruffbuff/Hackathon-2023-DynamicAI",
     text: 'Developed "DynamicAI" - An innovative blockchain-based AI solution that integrates machine learning with smart contracts. Won first place among 200+ participants for technical innovation and implementation quality.',
   },
   {
-    emoji: "🎮",
+    icon: "Gamepad2" as const,
     title: "BlockMagic Hackathon 2024",
     href: "https://github.com/ruffbuff/Hackathon-2024-OnChainTTT",
     text: 'Created "OnChainTTT" - A fully decentralized Tic-Tac-Toe game on Polygon blockchain. Implemented Chainlink VRF for provably fair randomness and automated game state management. Secured top 10 position in competitive gaming track.',

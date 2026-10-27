@@ -12,8 +12,7 @@ type Entry = { en: string; ru: string }
 
 export const extraTranslations: Record<string, Entry> = {
   // ── navigation / chrome ──
-  "nav.work": { en: "Work", ru: "Работа" },
-  "nav.backlogs": { en: "Backlogs", ru: "Бэклоги" },
+  "nav.changelog": { en: "Changelog", ru: "Журнал изменений" },
   "nav.contact": { en: "Contact", ru: "Контакты" },
   "nav.language": { en: "Language", ru: "Язык" },
   "nav.menu": { en: "Menu", ru: "Меню" },
@@ -27,7 +26,7 @@ export const extraTranslations: Record<string, Entry> = {
     ru: "RuffBuff — блокчейн и IT разработчик. Смарт-контракты и красивые, функциональные сайты.",
   },
   "home.cta.projects": { en: "View my work", ru: "Смотреть работы" },
-  "home.cta.backlogs": { en: "Read backlogs", ru: "Читать бэклоги" },
+  "home.cta.changelog": { en: "Read changelog", ru: "Читать changelog" },
   "home.scroll": { en: "Scroll", ru: "Листай" },
 
   // ── home: facts (derived from the CV data; TODO(owner): adjust wording) ──
@@ -41,7 +40,6 @@ export const extraTranslations: Record<string, Entry> = {
   // ── home: about (owner text of the old home page) ──
   "home.about.eyebrow": { en: "About me", ru: "Обо мне" },
   "home.about.title": { en: "Who I am", ru: "Кто я" },
-  "home.about.link": { en: "Skills", ru: "Навыки" },
   "home.about.1": {
     en: "Yup! I'm a Also a **Blockchain Engineer**. Big deal, right? But wait — there's more! I'm not just any developer,",
     ru: "Ага! Я ещё и **Blockchain Engineer**. Ну и что такого, да? Но погоди — это не всё! Я не просто разработчик,",
@@ -60,18 +58,12 @@ export const extraTranslations: Record<string, Entry> = {
   },
 
   // ── home: sections ──
-  "home.projects.eyebrow": { en: "Selected work", ru: "Избранное" },
-  "home.projects.title": { en: "Projects", ru: "Проекты" },
-  "home.projects.link": { en: "All projects", ru: "Все проекты" },
-  "home.repos.eyebrow": { en: "Latest on GitHub", ru: "Последнее на GitHub" },
+  "home.stack.eyebrow": { en: "Stack", ru: "Стек" },
+  "home.stack.title": { en: "Tools & tech", ru: "Технологии" },
+  "home.repos.eyebrow": { en: "Repositories", ru: "Репозитории" },
+  "home.repos.title": { en: "Latest on GitHub", ru: "Последнее на GitHub" },
   "home.activity.eyebrow": { en: "Activity", ru: "Активность" },
   "home.activity.title": { en: "On GitHub", ru: "На GitHub" },
-  "home.work.eyebrow": { en: "Experience", ru: "Опыт" },
-  "home.work.title": { en: "Work", ru: "Работа" },
-  "home.work.link": { en: "Full timeline", ru: "Вся история" },
-  "home.backlogs.eyebrow": { en: "Work in public", ru: "Работа в открытую" },
-  "home.backlogs.title": { en: "Latest backlogs", ru: "Свежие бэклоги" },
-  "home.backlogs.link": { en: "All backlogs", ru: "Все бэклоги" },
   "home.contact.eyebrow": { en: "Contact", ru: "Контакты" },
   "home.contact.title1": { en: "Let's build", ru: "Давай сделаем" },
   "home.contact.title2": { en: "something.", ru: "что-нибудь." },
@@ -81,32 +73,14 @@ export const extraTranslations: Record<string, Entry> = {
   "projects.eyebrow": { en: "Selected work", ru: "Избранное" },
   "projects.heading": { en: "Projects.", ru: "Проекты." },
   "projects.description": { en: "Websites and products I have built.", ru: "Сайты и продукты, которые я сделал." },
-  "projects.github.title": { en: "GitHub", ru: "GitHub" },
-  "projects.github.link": { en: "All repositories", ru: "Все репозитории" },
+  "projects.empty": { en: "No projects yet.", ru: "Проектов пока нет." },
 
-  // ── /work ──
-  "work.eyebrow": { en: "Experience", ru: "Опыт" },
-  "work.heading": { en: "Work.", ru: "Работа." },
-  "work.description": { en: "Here is my work experience..", ru: "Вот мой опыт работы.." },
-  "work.roles.eyebrow": { en: "Places & roles", ru: "Места и роли" },
-  "work.roles.title": { en: "Roles", ru: "Роли" },
-  "work.journey.eyebrow": { en: "Journey", ru: "Путь" },
-  "work.links": { en: "You can check these links if you wish to:", ru: "Если хочешь, загляни по этим ссылкам:" },
 
-  // ── /skills ──
-  "skills.eyebrow": { en: "Toolbox", ru: "Инструменты" },
-  "skills.heading": { en: "Skills.", ru: "Навыки." },
-  "skills.description": { en: "What I can do below..", ru: "Что я умею — ниже.." },
-  "skills.core.eyebrow": { en: "Core", ru: "Основное" },
-  "skills.core.title": { en: "What I use daily", ru: "Чем пользуюсь каждый день" },
-  "skills.languages.eyebrow": { en: "From GitHub", ru: "Из GitHub" },
-  "skills.languages.title": { en: "Languages", ru: "Языки" },
-  "skills.languages.loading": { en: "Loading language stats…", ru: "Загружаю статистику языков…" },
-  "skills.languages.unavailable": { en: "Language stats are unavailable right now.", ru: "Статистика языков сейчас недоступна." },
-  "skills.stack.eyebrow": { en: "Stack", ru: "Стек" },
-  "skills.stack.title": { en: "Tools & tech", ru: "Технологии" },
 
-  // ── /cv ──
+  // ── /cv (roles and journey moved here from the removed /work page) ──
+  "cv.roles.eyebrow": { en: "Places & roles", ru: "Места и роли" },
+  "cv.roles.title": { en: "Roles", ru: "Роли" },
+  "cv.journey.eyebrow": { en: "Journey", ru: "Путь" },
   "cv.eyebrow": { en: "Resume", ru: "Резюме" },
   "cv.heading": { en: "CV.", ru: "Резюме." },
   "cv.description": { en: "My resume", ru: "Моё резюме" },
@@ -122,11 +96,16 @@ export const extraTranslations: Record<string, Entry> = {
   "github.eyebrow": { en: "GitHub activity", ru: "Активность на GitHub" },
   "github.contributionsIn": { en: "contributions in", ru: "контрибуций за" },
   "github.loading": { en: "Loading contributions…", ru: "Загружаю контрибуции…" },
-  "github.unavailable": { en: "Contributions unavailable", ru: "Контрибуции недоступны" },
+  "github.unavailable": { en: "Contributions are temporarily unavailable", ru: "Контрибуции временно недоступны" },
   "github.hint": {
-    en: "GitHub API is unavailable (token / rate limit). Set GITHUB_TOKEN and retry.",
-    ru: "GitHub API недоступен (токен / лимит). Задай GITHUB_TOKEN и повтори.",
+    en: "GitHub did not answer. It will refresh on its own, try again a bit later.",
+    ru: "GitHub не ответил. Данные обновятся сами, загляни чуть позже.",
   },
+  "github.hint.token": {
+    en: "The contribution graph needs the GITHUB_TOKEN environment variable on the server.",
+    ru: "Для графика контрибуций на сервере нужна переменная окружения GITHUB_TOKEN.",
+  },
+  "github.retry": { en: "Retry", ru: "Повторить" },
   "github.year": { en: "Year", ru: "Год" },
   "github.mon": { en: "Mon", ru: "Пн" },
   "github.wed": { en: "Wed", ru: "Ср" },
@@ -134,28 +113,35 @@ export const extraTranslations: Record<string, Entry> = {
   "github.less": { en: "Less", ru: "Меньше" },
   "github.more": { en: "More", ru: "Больше" },
   "github.loadingRepos": { en: "Loading repositories…", ru: "Загружаю репозитории…" },
-  "github.reposUnavailable": { en: "Repositories are unavailable right now.", ru: "Репозитории сейчас недоступны." },
+  "github.reposUnavailable": { en: "Repositories are temporarily unavailable.", ru: "Репозитории временно недоступны." },
+  "github.viewOnGithub": { en: "Open GitHub profile", ru: "Открыть профиль GitHub" },
   "github.noRepos": { en: "No featured repositories yet.", ru: "Пока нет избранных репозиториев." },
   "github.noDescription": { en: "No description yet.", ru: "Описания пока нет." },
   "github.updated": { en: "Updated", ru: "Обновлён" },
 
-  // ── backlogs ──
-  "backlogs.eyebrow": { en: "Work in public", ru: "Работа в открытую" },
-  "backlogs.heading": { en: "Backlogs.", ru: "Бэклоги." },
-  "backlogs.description": {
-    en: "Project notes, progress, experiments, and unfinished thoughts.",
-    ru: "Заметки по проектам, прогресс, эксперименты и недодуманные мысли.",
+
+  // ── changelog ──
+  "changelog.eyebrow": { en: "Work in public", ru: "Работа в открытую" },
+  "changelog.heading": { en: "Changelog.", ru: "Changelog." },
+  "changelog.description": {
+    en: "What changed in my projects and when. Pulled straight from each project's CHANGELOG.md.",
+    ru: "Что и когда менялось в моих проектах. Берётся прямо из CHANGELOG.md каждого проекта.",
   },
-  "backlogs.empty": { en: "No backlogs yet. Add a .md file to content/backlogs/.", ru: "Бэклогов пока нет. Добавь .md файл в content/backlogs/." },
-  "backlogs.back": { en: "All backlogs", ru: "Все бэклоги" },
-  "backlogs.started": { en: "started", ru: "начат" },
-  "backlogs.updated": { en: "updated", ru: "обновлён" },
-  "backlogs.log": { en: "Log", ru: "Журнал" },
-  "backlogs.noEntries": { en: "No entries yet.", ru: "Записей пока нет." },
-  "backlogs.entriesNav": { en: "Entries", ru: "Записи" },
-  "backlogs.entry": { en: "entry", ru: "запись" },
-  "backlogs.entries": { en: "entries", ru: "записей" },
-  "backlogs.status.open": { en: "open", ru: "в работе" },
-  "backlogs.status.closed": { en: "closed", ru: "закрыт" },
-  "backlogs.status.soon": { en: "soon", ru: "скоро" },
+  "changelog.empty": { en: "No projects in the changelog yet.", ru: "Проектов в changelog пока нет." },
+  "changelog.back": { en: "All changelogs", ru: "Все changelog" },
+  "changelog.started": { en: "since", ru: "с" },
+  "changelog.updated": { en: "updated", ru: "обновлён" },
+  "changelog.log": { en: "Log", ru: "Журнал" },
+  "changelog.noEntries": { en: "No entries yet.", ru: "Записей пока нет." },
+  "changelog.entriesNav": { en: "Entries", ru: "Записи" },
+  "changelog.entry": { en: "entry", ru: "запись" },
+  "changelog.entries": { en: "entries", ru: "записей" },
+  "changelog.private": { en: "private repo", ru: "приватный репо" },
+  "changelog.privateHint": { en: "The source code is private, only the changelog is public.", ru: "Исходный код приватный, публично только changelog." },
+  "changelog.repo": { en: "Repository", ru: "Репозиторий" },
+  "changelog.unavailable": { en: "Changelog temporarily unavailable", ru: "Changelog временно недоступен" },
+  "changelog.unavailableHint": { en: "Could not load it from GitHub right now. The page refreshes itself, please check back later.", ru: "Сейчас не удалось загрузить его с GitHub. Страница обновится сама, загляни позже." },
+  "changelog.status.open": { en: "open", ru: "в работе" },
+  "changelog.status.closed": { en: "closed", ru: "закрыт" },
+  "changelog.status.soon": { en: "soon", ru: "скоро" },
 }

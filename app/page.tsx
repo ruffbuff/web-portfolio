@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ArrowUpRight, Mail } from 'lucide-react'
-import { BacklogRow } from '@/components/backlog-row'
 import { GitHubContributions } from '@/components/github-contributions'
 import { GitHubRepos } from '@/components/github-repos'
 import { HeroTitle } from '@/components/hero-title'
@@ -8,13 +7,12 @@ import { Rich, T, Bi } from '@/components/language-provider'
 import { Magnetic } from '@/components/magnetic'
 import { Marquee } from '@/components/marquee'
 import { Parallax } from '@/components/parallax'
-import { ProjectCard } from '@/components/project-card'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { Spotlight } from '@/components/spotlight'
 import { SvgIcon } from '@/components/ui/svg-icon'
-import { getBacklogs } from '@/lib/backlogs'
-import { projects, roles, site, socials, stack } from '@/lib/site'
+import { roles, site, socials } from '@/lib/site'
+import { stackBottom, stackTop } from '@/lib/stack'
 
 const stagger = (i: number) => ({ '--i': i }) as React.CSSProperties
 
@@ -25,8 +23,6 @@ const facts = [
 ]
 
 export default function Page() {
-  const backlogs = getBacklogs().slice(0, 3)
-
   return (
     <>
       {/* ───────── Hero ───────── */}
@@ -67,7 +63,7 @@ export default function Page() {
               </Link>
             </Magnetic>
             <Magnetic strength={0.2}>
-              <Link href="/backlogs" className="btn-ghost"><T k="home.cta.backlogs" /></Link>
+              <Link href="/changelog" className="btn-ghost"><T k="home.cta.changelog" /></Link>
             </Magnetic>
           </div>
         </div>
@@ -78,10 +74,19 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ───────── Marquee ───────── */}
-      <Reveal className="relative left-1/2 w-screen -translate-x-1/2 border-y border-white/10 bg-white/[0.025] py-8 backdrop-blur-sm sm:py-10">
-        <Marquee items={stack} />
-      </Reveal>
+      {/* ───────── Stack: two running lines in opposite directions ───────── */}
+      <section aria-label="Stack" className="relative left-1/2 w-screen -translate-x-1/2 border-y border-white/10 bg-white/[0.025] py-10 backdrop-blur-sm sm:py-14">
+        <Reveal className="mx-auto mb-8 flex max-w-[88rem] items-center gap-3 px-5 sm:mb-10 sm:px-8">
+          <p className="eyebrow flex items-center gap-3">
+            <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" /> <T k="home.stack.eyebrow" />
+          </p>
+          <span className="text-sm text-muted-foreground"><T k="home.stack.title" /></span>
+        </Reveal>
+        <Reveal className="space-y-3 sm:space-y-4">
+          <Marquee items={stackTop} />
+          <Marquee items={stackBottom} reverse />
+        </Reveal>
+      </section>
 
       {/* ───────── Facts strip ───────── */}
       <Reveal className="mt-20 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -98,7 +103,7 @@ export default function Page() {
 
       {/* ───────── About ───────── */}
       <section className="mt-32 sm:mt-44" aria-label="About">
-        <SectionHeading index="01" eyebrow={<T k="home.about.eyebrow" />} title={<T k="home.about.title" />} href="/skills" linkLabel={<T k="home.about.link" />} />
+        <SectionHeading index="01" eyebrow={<T k="home.about.eyebrow" />} title={<T k="home.about.title" />} />
         <Reveal className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
           <div className="space-y-3 text-xl leading-snug tracking-[-0.02em] text-muted-foreground sm:text-2xl">
             <p><Rich k="home.about.1" /></p>
@@ -111,20 +116,10 @@ export default function Page() {
         </Reveal>
       </section>
 
-      {/* ───────── Selected projects ───────── */}
-      <section className="relative mt-32 sm:mt-44" aria-label="Selected projects">
+      {/* ───────── Latest on GitHub ───────── */}
+      <section className="relative mt-32 sm:mt-44" aria-label="Latest on GitHub">
         <div aria-hidden className="pointer-events-none absolute -left-40 top-20 -z-10 size-[34rem] rounded-full bg-[var(--violet)] opacity-[0.16] blur-[120px]" />
-        <SectionHeading index="02" eyebrow={<T k="home.projects.eyebrow" />} title={<T k="home.projects.title" />} href="/projects" linkLabel={<T k="home.projects.link" />} />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p, i) => (
-            <Reveal key={p.number} delay={i * 100} className={i === 0 ? 'md:col-span-2 lg:col-span-1' : ''}>
-              <ProjectCard p={p} className="h-full" />
-            </Reveal>
-          ))}
-        </div>
-        <p className="eyebrow mb-6 mt-16 flex items-center gap-3">
-          <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" /> <T k="home.repos.eyebrow" />
-        </p>
+        <SectionHeading index="02" eyebrow={<T k="home.repos.eyebrow" />} title={<T k="home.repos.title" />} />
         <GitHubRepos />
       </section>
 
@@ -132,41 +127,6 @@ export default function Page() {
       <section className="mt-32 sm:mt-44" aria-label="GitHub activity">
         <SectionHeading index="03" eyebrow={<T k="home.activity.eyebrow" />} title={<T k="home.activity.title" />} />
         <Reveal><GitHubContributions /></Reveal>
-      </section>
-
-      {/* ───────── Experience (roles) ───────── */}
-      <section className="mt-32 sm:mt-44" aria-label="Experience">
-        <SectionHeading index="04" eyebrow={<T k="home.work.eyebrow" />} title={<T k="home.work.title" />} href="/work" linkLabel={<T k="home.work.link" />} />
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {roles.map((r, i) => (
-            <Reveal key={r.name} delay={i * 80}>
-              <Spotlight className="h-full rounded-2xl">
-                <span className="spot-ring" />
-                <div className="spot-body flex items-center gap-4 p-5">
-                  <span className="flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] text-2xl" aria-hidden>{r.emoji}</span>
-                  <div>
-                    <div className="text-lg font-medium tracking-[-0.03em]">{r.name}</div>
-                    <div className="font-mono text-[11px] text-muted-foreground"><Bi v={r.period} /></div>
-                  </div>
-                </div>
-              </Spotlight>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ───────── Backlogs ───────── */}
-      <section className="relative mt-32 sm:mt-44" aria-label="Latest backlogs">
-        <div aria-hidden className="pointer-events-none absolute -right-40 top-10 -z-10 size-[30rem] rounded-full bg-[var(--pink)] opacity-[0.12] blur-[120px]" />
-        <SectionHeading index="05" eyebrow={<T k="home.backlogs.eyebrow" />} title={<T k="home.backlogs.title" />} href="/backlogs" linkLabel={<T k="home.backlogs.link" />} />
-        <div className="divide-y divide-white/10 border-y border-white/10">
-          {backlogs.map((b, i) => (
-            <Reveal key={b.slug} delay={i * 80}>
-              <BacklogRow b={b} index={i} />
-            </Reveal>
-          ))}
-          {backlogs.length === 0 && <p className="py-8 text-sm text-muted-foreground"><T k="backlogs.empty" /></p>}
-        </div>
       </section>
 
       {/* ───────── Contact / CTA ───────── */}
