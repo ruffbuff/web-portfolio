@@ -10,7 +10,7 @@ export type ChangelogEntry = {
   body: string // markdown
 }
 
-/** Why the text could not be loaded (the UI only shows a neutral "temporarily unavailable"). */
+/** Why the text could not be loaded (the UI shows a matching hint for each code). */
 export type ChangelogError = 'no-token' | 'not-found' | 'auth' | 'rate-limit' | 'network' | 'empty'
 
 export type Changelog = {
@@ -30,6 +30,7 @@ export type Changelog = {
 }
 
 const REVALIDATE = 3600 // seconds
+const RETRY_AFTER = 60 // seconds: a failed load is re-checked this soon instead of being frozen for an hour
 const STATUSES: ChangelogStatus[] = ['open', 'closed', 'soon']
 
 // "## 2026-10-12 — Entry title" (separator: —, – or -, title optional)
@@ -111,26 +112,36 @@ async function loadFile(src: ChangelogSource): Promise<Loaded> {
   if (!token && src.visibility === 'private') return fallback(src, 'no-token')
 
   const path = (src.path ?? 'CHANGELOG.md').split('/').map(encodeURIComponent).join('/')
-  const url = `https://api.github.com/repos/${src.repo}/contents/${path}?ref=${encodeURIComponent(src.branch ?? 'main')}`
-  try {
-    const res = await fetch(url, {
+  const branch = src.branch ?? 'main'
+  const url = `https://api.github.com/repos/${src.repo}/contents/${path}?ref=${encodeURIComponent(branch)}`
+  const request = (revalidate: number) =>
+    fetch(url, {
       headers: {
         Accept: 'application/vnd.github.raw+json',
         'X-GitHub-Api-Version': '2022-11-28',
         'User-Agent': 'RuffBuff-Portfolio',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      next: { revalidate: REVALIDATE, tags: ['changelog'] },
+      next: { revalidate, tags: ['changelog'] },
       signal: AbortSignal.timeout(10_000),
     })
+
+  try {
+    let res = await request(REVALIDATE)
+    if (!res.ok) {
+      // Next caches only successful fetches, but the rendered page (ISR) would keep the error for the whole hour.
+      // The retry uses a short revalidate time, which also shortens the revalidation of the page that rendered it.
+      res = await request(RETRY_AFTER)
+    }
     if (res.ok) {
       const text = await res.text()
       lastGood.set(src.slug, text)
       return { ok: true, text }
     }
     const rateLimited = res.status === 429 || (res.status === 403 && res.headers.get('x-ratelimit-remaining') === '0')
+    // GitHub answers 404 (not 403) when a token has no access to a private repository, so "not-found" covers "no access" as well
     const error: ChangelogError = rateLimited ? 'rate-limit' : res.status === 404 ? (token ? 'not-found' : 'no-token') : res.status === 401 || res.status === 403 ? 'auth' : 'network'
-    console.warn(`[changelog] ${src.slug}: GitHub answered ${res.status} (${error})`)
+    console.warn(`[changelog] ${src.slug}: GitHub answered ${res.status} for ${src.repo}/${path}@${branch} (${error}, token ${token ? 'set' : 'missing'})`)
     return fallback(src, error)
   } catch (e) {
     console.warn(`[changelog] ${src.slug}: request failed`, e instanceof Error ? e.message : e)

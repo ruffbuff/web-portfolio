@@ -45,7 +45,7 @@ export function ChangelogCard({ b, index }: { b: Changelog; index: number }) {
           {b.error ? (
             <div className="flex items-center gap-3 py-4 text-muted-foreground">
               <CloudOff className="size-4 shrink-0" />
-              <span className="font-sans text-xs leading-5"><T k="changelog.unavailable" /></span>
+              <span className="font-sans text-xs leading-5"><T k="changelog.unavailable" /><br /><span className="opacity-70"><T k={`changelog.err.${b.error}`} /></span></span>
             </div>
           ) : (
             <ol className="relative space-y-3 border-l border-white/10 pl-4">

@@ -31,7 +31,7 @@ export const extraTranslations: Record<string, Entry> = {
 
   // ── home: facts (derived from the CV data; TODO(owner): adjust wording) ──
   "home.facts.focus": { en: "Focus", ru: "Фокус" },
-  "home.facts.focusValue": { en: "Blockchain & Full Stack", ru: "Блокчейн и Full Stack" },
+  "home.facts.focusValue": { en: "AI, Backend & Blockchain", ru: "ИИ, бэкенд и блокчейн" },
   "home.facts.stack": { en: "Core stack", ru: "Основной стек" },
   "home.facts.stackValue": { en: "Python · TypeScript · Solidity", ru: "Python · TypeScript · Solidity" },
   "home.facts.based": { en: "Based in", ru: "Живу в" },
@@ -55,6 +55,12 @@ export const extraTranslations: Record<string, Entry> = {
   "home.about.4": {
     en: "I love both **Blockchain** & **Development**, so. That means I can create functional smart contracts, same as beautiful and functional websites. I'm always looking for new opportunities to learn and grow.",
     ru: "Я люблю и **блокчейн**, и **разработку**. Это значит, что я могу создавать функциональные смарт-контракты, а также красивые и функциональные сайты. Я всегда ищу новые возможности, чтобы учиться и расти.",
+  },
+
+  "home.about.nowLabel": { en: "Right now", ru: "Сейчас" },
+  "home.about.5": {
+    en: "Currently focused on **AI**, **databases**, **reverse engineering** and various **backend** work.",
+    ru: "Сейчас занимаюсь **ИИ**, **базами данных**, **reverse engineering** и разной **бэкенд**-разработкой.",
   },
 
   // ── home: sections ──
@@ -90,6 +96,7 @@ export const extraTranslations: Record<string, Entry> = {
   "cv.experience.eyebrow": { en: "Career", ru: "Карьера" },
   "cv.education.eyebrow": { en: "Learning", ru: "Обучение" },
   "cv.skills.eyebrow": { en: "Skills", ru: "Навыки" },
+  "cv.hackathons.title": { en: "Hackathons & jams", ru: "Хакатоны и джемы" },
   "cv.hackathons.eyebrow": { en: "Competitions", ru: "Соревнования" },
 
   // ── GitHub blocks ──
@@ -110,6 +117,11 @@ export const extraTranslations: Record<string, Entry> = {
   "github.mon": { en: "Mon", ru: "Пн" },
   "github.wed": { en: "Wed", ru: "Ср" },
   "github.fri": { en: "Fri", ru: "Пт" },
+  "github.stat.active": { en: "Active days", ru: "Активных дней" },
+  "github.stat.streak": { en: "Longest streak", ru: "Лучшая серия" },
+  "github.stat.best": { en: "Best day", ru: "Лучший день" },
+  "github.stat.month": { en: "Top month", ru: "Топ-месяц" },
+  "github.days": { en: "days", ru: "дн." },
   "github.less": { en: "Less", ru: "Меньше" },
   "github.more": { en: "More", ru: "Больше" },
   "github.loadingRepos": { en: "Loading repositories…", ru: "Загружаю репозитории…" },
@@ -140,7 +152,13 @@ export const extraTranslations: Record<string, Entry> = {
   "changelog.privateHint": { en: "The source code is private, only the changelog is public.", ru: "Исходный код приватный, публично только changelog." },
   "changelog.repo": { en: "Repository", ru: "Репозиторий" },
   "changelog.unavailable": { en: "Changelog temporarily unavailable", ru: "Changelog временно недоступен" },
-  "changelog.unavailableHint": { en: "Could not load it from GitHub right now. The page refreshes itself, please check back later.", ru: "Сейчас не удалось загрузить его с GitHub. Страница обновится сама, загляни позже." },
+  "changelog.unavailableHint": { en: "Could not load it from GitHub right now. The page re-checks itself every few minutes, please check back later.", ru: "Сейчас не удалось загрузить его с GitHub. Страница сама перепроверит это через несколько минут, загляни позже." },
+  "changelog.err.empty": { en: "CHANGELOG.md has no entries in a supported format.", ru: "В CHANGELOG.md нет записей в поддерживаемом формате." },
+  "changelog.err.no-token": { en: "The server has no GitHub token, and this repository is private.", ru: "На сервере не задан токен GitHub, а репозиторий приватный." },
+  "changelog.err.not-found": { en: "Not found: either CHANGELOG.md is missing on this branch, or the token has no access to the repository (Contents: Read).", ru: "Не найдено: либо нет CHANGELOG.md в этой ветке, либо у токена нет доступа к репозиторию (Contents: Read)." },
+  "changelog.err.auth": { en: "GitHub refused the token (expired, revoked or without access).", ru: "GitHub отклонил токен (истёк, отозван или нет доступа)." },
+  "changelog.err.rate-limit": { en: "GitHub rate limit reached. It will retry soon.", ru: "Достигнут лимит запросов GitHub. Скоро повторю попытку." },
+  "changelog.err.network": { en: "GitHub did not respond. It will retry soon.", ru: "GitHub не ответил. Скоро повторю попытку." },
   "changelog.status.open": { en: "open", ru: "в работе" },
   "changelog.status.closed": { en: "closed", ru: "закрыт" },
   "changelog.status.soon": { en: "soon", ru: "скоро" },

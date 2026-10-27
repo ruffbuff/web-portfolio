@@ -48,8 +48,10 @@ export function SiteHeader() {
   return (
     <header className="sticky top-3 z-40 mt-3 sm:top-4 sm:mt-4">
       <div className="flex items-center justify-between rounded-full border border-white/10 bg-background/55 py-2 pl-5 pr-2 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.9)] backdrop-blur-xl">
-        <Link href="/" className="font-mono text-base font-semibold tracking-[-0.05em]" aria-label={`RuffBuff — ${t('nav.home')}`}>
-          RB<span className="text-aurora">.</span>
+        <Link href="/" className="group inline-flex items-baseline text-[1.05rem] font-semibold leading-none tracking-[-0.055em] sm:text-xl" aria-label={`RuffBuff — ${t('nav.home')}`}>
+          <span className="transition-colors duration-300 group-hover:text-white">Ruff</span>
+          <span className="text-aurora no-glow">Buff</span>
+          <span aria-hidden className="ml-[3px] size-[5px] self-end rounded-full bg-gradient-to-br from-[var(--amber)] to-[var(--pink)] shadow-[0_0_10px_var(--pink)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-150" />
         </Link>
 
         <nav className="hidden items-center gap-1 text-sm md:flex" aria-label="Main navigation">
