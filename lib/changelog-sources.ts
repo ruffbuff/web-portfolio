@@ -43,8 +43,7 @@ export const changelogSources: ChangelogSource[] = [
     slug: 'portfolio',
     title: 'Portfolio',
     repo: 'ruffbuff/web-portfolio',
-    // TODO(owner): the repository is private for now. Switch to 'public' when it is opened.
-    visibility: 'private',
+    visibility: 'public',
     status: 'open',
     tags: ['Next.js', 'Tailwind CSS'],
     summary: 'This website: redesign, content and fixes.',
