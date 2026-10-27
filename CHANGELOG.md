@@ -6,7 +6,8 @@ Notable changes to the portfolio site, newest first.
 
 - GitHub activity card: the heatmap now fills the whole card (responsive cells) and has stat tiles under it: active days, longest streak, best day and top month.
 - Changelog errors are specific now (no token, file or access not found, token refused, rate limit, no response). A failed load is re-checked after a minute instead of staying for an hour.
-- CV (EN and RU): new experience for 2024 to now (AI, automation, AI agents, own projects), Linux (Arch) in 2025, GameDev.tv Jam 2026 ("Spellbound") in competitions. The PDF CV is now generated from the same data.
+- CV (EN and RU): new experience from 2026 to now (AI, automation, AI agents, own projects), Linux (Arch) in 2025, GameDev.tv Jam 2026 ("Spellbound") in competitions.
+- PDF CV in English and Russian (`cv_en.pdf`, `cv_ru.pdf`), generated from the same data as the page, with all sections translated. The CV page has a PDF language switch (defaults to the site language). The name in the PDF comes from the site data.
 - Home: the "About me" block says what I focus on now (AI, databases, reverse engineering, backend).
 - New "RuffBuff" wordmark in the navigation bar.
 

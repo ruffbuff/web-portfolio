@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
-import { Download, Gamepad2, HardHat, Laptop, Link2, Trophy, type LucideIcon } from 'lucide-react'
+import { Gamepad2, HardHat, Laptop, Link2, Trophy, type LucideIcon } from 'lucide-react'
 import { Bi, T } from '@/components/language-provider'
+import { CvDownload } from '@/components/cv-download'
+import { Period } from '@/components/cv-period'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { Spotlight } from '@/components/spotlight'
 import {
-  cvContacts, cvCoreLanguages, cvEducation, cvExperience, cvHackathons, cvPersonal, cvSkillBlocks, cvSpoken, type Item,
+  cvContacts, cvCoreLanguages, cvEducation, cvExperience, cvHackathons, cvPersonal, cvSkillBlocks, cvSpoken, type Item, type Row,
 } from '@/lib/cv-data'
 import { roles, site } from '@/lib/site'
 import { cn } from '@/lib/utils'
@@ -28,7 +30,7 @@ function Timeline({ items }: { items: Item[] }) {
           <span className="absolute -left-[1.85rem] top-7 size-3 rounded-full border-2 border-background bg-gradient-to-br from-[var(--amber)] to-[var(--pink)] shadow-[0_0_14px_var(--pink)] sm:-left-[2.85rem]" />
           <Reveal>
             <div className={cn('rounded-3xl border bg-gradient-to-br from-white/[0.05] to-transparent p-5 transition-colors hover:border-white/20 sm:p-6', it.highlight ? 'border-primary/30' : 'border-white/10')}>
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary">{it.period}</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary"><Period v={it.period} /></p>
               <h3 className="mt-2 text-xl font-medium tracking-[-0.03em] sm:text-2xl"><Bi v={it.title} /></h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground"><Bi v={it.text} /></p>
             </div>
@@ -39,17 +41,17 @@ function Timeline({ items }: { items: Item[] }) {
   )
 }
 
-function KeyValue({ rows }: { rows: { k: string; v: string; href?: string }[] }) {
+function KeyValue({ rows }: { rows: Row[] }) {
   return (
     <dl className="space-y-3 text-sm">
       {rows.map((r) => (
-        <div key={r.k} className="flex flex-col gap-0.5">
-          <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{r.k}</dt>
+        <div key={r.k.en} className="flex flex-col gap-0.5">
+          <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground"><Bi v={r.k} /></dt>
           <dd className="break-words">
             {r.href ? (
-              <a href={r.href} target={r.href.startsWith('mailto:') ? undefined : '_blank'} rel="noopener noreferrer" className="underline-offset-4 transition-colors hover:text-primary hover:underline">{r.v}</a>
+              <a href={r.href} target={r.href.startsWith('mailto:') ? undefined : '_blank'} rel="noopener noreferrer" className="underline-offset-4 transition-colors hover:text-primary hover:underline"><Bi v={r.v} /></a>
             ) : (
-              r.v
+              <Bi v={r.v} />
             )}
           </dd>
         </div>
@@ -83,10 +85,7 @@ export default function CvPage() {
               </div>
             </div>
           </Spotlight>
-          {/* The RU PDF (cv_ru.pdf) is not in the repo: both languages download the English CV. */}
-          <a href={site.cvFile} download="RuffBuff_CV.pdf" className="btn-aurora w-full justify-center">
-            <Download className="size-4" /> <T k="cv.download" />
-          </a>
+          <CvDownload />
         </aside>
 
         <div className="min-w-0 space-y-28 sm:space-y-36">

@@ -61,7 +61,7 @@ Next.js 16 (App Router, Turbopack), React 19, Tailwind CSS 4 (конфиг в `a
 
 ### Резюме (PDF)
 
-Файл `public/cv/cv_en.pdf`. Кнопка «Download CV» отдаёт его для обоих языков (`cv_ru.pdf` в репозитории нет). Генерация: `pnpm cv:generate` (скрипт `scripts/generate-cv.ts`, puppeteer).
+Файлы `public/cv/cv_en.pdf` и `public/cv/cv_ru.pdf`. На странице CV можно выбрать язык PDF (по умолчанию язык сайта). Оба файла собираются из `lib/cv-data.ts` (то же содержимое, что и на странице). Генерация обоих: `pnpm cv:generate` (скрипт `scripts/generate-cv.ts`, puppeteer).
 
 ## Проекты (`/projects`)
 

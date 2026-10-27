@@ -9,7 +9,7 @@ export const site = {
   github: "https://github.com/ruffbuff",
   x: "https://x.com/RuffBuff_",
   telegram: "https://t.me/ruffbuff",
-  cvFile: "/cv/cv_en.pdf",
+  cvFile: "/cv/cv_en.pdf", // English; the Russian one is /cv/cv_ru.pdf
 }
 
 export const socials = [

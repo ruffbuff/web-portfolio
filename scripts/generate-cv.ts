@@ -1,22 +1,28 @@
-import fs from 'fs';
 import path from 'path';
-import puppeteer from 'puppeteer';
+import puppeteer, { type Browser } from 'puppeteer';
 import {
-  cvContacts, cvCoreLanguages, cvEducation, cvExperience, cvHackathons, cvPersonal, cvSkillBlocks, cvSpoken,
-  type Item,
+  cvContacts, cvCoreLanguages, cvEducation, cvExperience, cvHackathons, cvName, cvPersonal, cvSkillBlocks, cvSpoken, fmtPeriod,
+  type Item, type Lang, type Row,
 } from '../lib/cv-data';
 
 const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const items = (list: Item[]) =>
-  list
-    .map((i) => `<div class="item"><div><strong>${esc(i.title.en)}</strong> - ${esc(i.period)}</div><div class="description">${esc(i.text.en)}</div></div>`)
-    .join('\n');
 
-async function generateCV() {
-  // The content comes from lib/cv-data.ts (English), the same data as the /cv page, so the PDF cannot drift from the site.
+const LABELS: Record<Lang, Record<'contacts' | 'experience' | 'education' | 'skills' | 'languages' | 'spoken' | 'competitions', string>> = {
+  en: { contacts: 'Contacts', experience: 'Professional Experience', education: 'Education & Self-Learning', skills: 'Skills', languages: 'Languages', spoken: 'Spoken Languages', competitions: 'Competitions' },
+  ru: { contacts: 'Контакты', experience: 'Опыт работы', education: 'Обучение и самообразование', skills: 'Навыки', languages: 'Языки программирования', spoken: 'Языки общения', competitions: 'Соревнования' },
+};
+
+async function generateCV(lang: Lang, browser: Browser) {
+  const L = LABELS[lang];
+  const items = (list: Item[]) =>
+    list
+      .map((i) => `<div class="item"><div><strong>${esc(i.title[lang])}</strong> - ${esc(fmtPeriod(i.period, lang))}</div><div class="description">${esc(i.text[lang])}</div></div>`)
+      .join('\n');
+  const rows = (list: Row[], sep: string) => list.map((r) => `<div>${esc(r.k[lang])}${sep}${esc(r.v[lang])}</div>`).join('\n');
+  // The content comes from lib/cv-data.ts, the same data as the /cv page, so the PDF cannot drift from the site.
   const html = `
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="${lang}">
     <head>
       <meta charset="UTF-8">
       <style>
@@ -76,94 +82,79 @@ async function generateCV() {
       </style>
     </head>
     <body>
-      <h1>Sergei Avramtsuk</h1>
+      <h1>${esc(cvName[lang])}</h1>
       <div class="contact">
-        ${cvPersonal.map((r) => `<div>${esc(r.k)}: ${esc(r.v)}</div>`).join('\n')}
+        ${rows(cvPersonal, ': ')}
       </div>
 
       <div class="section">
-        <h2>Contacts</h2>
-        ${cvContacts.map((r) => `<div>${esc(r.k)}: ${esc(r.v)}</div>`).join('\n')}
+        <h2>${L.contacts}</h2>
+        ${rows(cvContacts, ': ')}
       </div>
 
       <div class="divider"></div>
 
       <div class="section">
-        <h2>Professional Experience</h2>
+        <h2>${L.experience}</h2>
         ${items(cvExperience)}
       </div>
 
       <div class="divider"></div>
 
       <div class="section">
-        <h2>Education & Self-Learning</h2>
+        <h2>${L.education}</h2>
         ${items(cvEducation)}
       </div>
 
       <div class="divider"></div>
 
       <div class="section">
-        <h2>Skills</h2>
+        <h2>${L.skills}</h2>
         <div class="item">
-          <h3>Languages</h3>
-          ${cvCoreLanguages.map((l) => `<div class="skills-list"><strong>${esc(l.name)}:</strong> ${esc(l.text.en)}</div>`).join('\n')}
+          <h3>${L.languages}</h3>
+          ${cvCoreLanguages.map((l) => `<div class="skills-list"><strong>${esc(l.name)}:</strong> ${esc(l.text[lang])}</div>`).join('\n')}
         </div>
-        ${cvSkillBlocks.map((b) => `<div class="item"><h3>${esc(b.title.en)}</h3><div class="skills-list">${esc(b.text.en)}</div></div>`).join('\n')}
+        ${cvSkillBlocks.map((b) => `<div class="item"><h3>${esc(b.title[lang])}</h3><div class="skills-list">${esc(b.text[lang])}</div></div>`).join('\n')}
       </div>
 
       <div class="divider"></div>
 
       <div class="section">
-        <h2>Spoken Languages</h2>
-        ${cvSpoken.map((r) => `<div>${esc(r.k)} - ${esc(r.v)}</div>`).join('\n')}
+        <h2>${L.spoken}</h2>
+        ${rows(cvSpoken, ' - ')}
       </div>
 
       <div class="divider"></div>
 
       <div class="section">
-        <h2>Competitions</h2>
-        ${cvHackathons.map((h) => `<div class="item"><div><strong>${esc(h.title.en)}</strong> - <a href="${h.href}">${esc(h.href.replace('https://', ''))}</a></div><div class="description">${esc(h.text.en)}</div></div>`).join('\n')}
+        <h2>${L.competitions}</h2>
+        ${cvHackathons.map((h) => `<div class="item"><div><strong>${esc(h.title[lang])}</strong> - <a href="${h.href}">${esc(h.href.replace('https://', ''))}</a></div><div class="description">${esc(h.text[lang])}</div></div>`).join('\n')}
       </div>
     </body>
     </html>
   `;
-  // Create a temporary file to store HTML
-  const tempHtmlPath = path.join(process.cwd(), 'temp.html');
-  fs.writeFileSync(tempHtmlPath, html, 'utf8');
-
-  // Launch browser
-  const browser = await puppeteer.launch();
   const page = await browser.newPage();
+  await page.setViewport({ width: 794, height: 1123, deviceScaleFactor: 2 }); // A4 at 96 DPI
+  await page.setContent(html, { waitUntil: 'load' });
 
-  // Set viewport to A4 size
-  await page.setViewport({
-    width: 794, // A4 width in pixels (assuming 96 DPI)
-    height: 1123, // A4 height in pixels
-    deviceScaleFactor: 2
-  });
-
-  // Load HTML file
-  await page.goto(`file://${tempHtmlPath}`);
-
-  // Generate PDF
-  const outputPath = path.join(process.cwd(), 'public', 'cv', `cv_en.pdf`);
+  const outputPath = path.join(process.cwd(), 'public', 'cv', `cv_${lang}.pdf`);
   await page.pdf({
     path: outputPath,
     format: 'A4',
-    margin: {
-      top: '15mm',
-      right: '15mm',
-      bottom: '15mm',
-      left: '15mm'
-    },
-    printBackground: true
+    margin: { top: '15mm', right: '15mm', bottom: '15mm', left: '15mm' },
+    printBackground: true,
   });
-
-  // Cleanup
-  await browser.close();
-  fs.unlinkSync(tempHtmlPath);
-
+  await page.close();
   console.log(`Generated CV at: ${outputPath}`);
 }
 
-generateCV();
+async function main() {
+  const browser = await puppeteer.launch();
+  try {
+    for (const lang of ['en', 'ru'] as const) await generateCV(lang, browser);
+  } finally {
+    await browser.close();
+  }
+}
+
+main();

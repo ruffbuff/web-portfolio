@@ -2,18 +2,30 @@
 
 export type Bi = { en: string; ru: string }
 
-export const cvPersonal = [
-  { k: "Age", v: "23 years old" },
-  { k: "Location", v: "Europe" },
-  { k: "Role", v: "Full Stack Developer & Blockchain Engineer" },
-  { k: "Status", v: "Available for hire" },
+export type Lang = "en" | "ru"
+export type Row = { k: Bi; v: Bi; href?: string }
+
+/** Name as on the site (same values as the "cv.name" translation). */
+export const cvName: Bi = { en: "Sergei Avramtsuk", ru: "Сергей Аврамчук" }
+
+/** "2024 - Present" -> "2024 - настоящее время" for the Russian version. */
+export const fmtPeriod = (period: string, lang: Lang) =>
+  lang === "ru" ? period.replace("Present", "настоящее время") : period
+
+export const cvPersonal: Row[] = [
+  { k: { en: "Age", ru: "Возраст" }, v: { en: "23 years old", ru: "23 года" } },
+  { k: { en: "Location", ru: "Локация" }, v: { en: "Europe", ru: "Европа" } },
+  { k: { en: "Role", ru: "Роль" }, v: { en: "Full Stack Developer & Blockchain Engineer", ru: "Full Stack разработчик и Blockchain-инженер" } },
+  { k: { en: "Status", ru: "Статус" }, v: { en: "Available for hire", ru: "Открыт к предложениям" } },
 ]
 
-export const cvContacts = [
-  { k: "Email", v: "ruffgreenw@gmail.com", href: "mailto:ruffgreenw@gmail.com" },
-  { k: "Telegram", v: "@ruffbuff", href: "https://t.me/ruffbuff" },
-  { k: "GitHub", v: "github.com/ruffbuff", href: "https://github.com/ruffbuff" },
-  { k: "Twitter", v: "@RuffBuff_", href: "https://x.com/RuffBuff_" },
+const same = (v: string): Bi => ({ en: v, ru: v })
+
+export const cvContacts: Row[] = [
+  { k: { en: "Email", ru: "Почта" }, v: same("ruffgreenw@gmail.com"), href: "mailto:ruffgreenw@gmail.com" },
+  { k: same("Telegram"), v: same("@ruffbuff"), href: "https://t.me/ruffbuff" },
+  { k: same("GitHub"), v: same("github.com/ruffbuff"), href: "https://github.com/ruffbuff" },
+  { k: same("Twitter"), v: same("@RuffBuff_"), href: "https://x.com/RuffBuff_" },
 ]
 
 export type Item = { title: Bi; period: string; text: Bi; highlight?: boolean }
@@ -46,11 +58,11 @@ export const cvEducation: Item[] = [
     },
   },
   {
-    title: { en: "AI, Agents & Linux Studies", ru: "ИИ, агенты и Linux" },
-    period: "2024 - Present",
+    title: { en: "AI, Agents & Automation Studies", ru: "ИИ, агенты и автоматизация" },
+    period: "2026 - Present",
     text: {
-      en: "Ongoing self-study in AI and machine learning integration, AI agents and automation, plus reverse engineering and databases. In 2025 went deep into Arch Linux. Learning through trial and error and by building real projects.",
-      ru: "Постоянное самообучение: интеграция ИИ и машинного обучения, ИИ-агенты и автоматизация, а также reverse engineering и базы данных. В 2025 году глубоко погрузился в Arch Linux. Учусь на ошибках и на реальных проектах.",
+      en: "Ongoing self-study in AI and machine learning integration, AI agents and automation, plus reverse engineering and databases. Learning through trial and error and by building real projects.",
+      ru: "Постоянное самообучение: интеграция ИИ и машинного обучения, ИИ-агенты и автоматизация, а также reverse engineering и базы данных. Учусь на ошибках и на реальных проектах.",
     },
   },
 ]
@@ -100,16 +112,16 @@ export const cvSkillBlocks: { title: Bi; text: Bi }[] = [
   },
 ]
 
-export const cvSpoken = [
-  { k: "Russian", v: "Native speaker" },
-  { k: "Estonian", v: "Fluent (B2+ level)" },
-  { k: "English", v: "Advanced (B1 level)" },
+export const cvSpoken: Row[] = [
+  { k: { en: "Russian", ru: "Русский" }, v: { en: "Native speaker", ru: "Родной" } },
+  { k: { en: "Estonian", ru: "Эстонский" }, v: { en: "Fluent (B2+ level)", ru: "Свободно (уровень B2+)" } },
+  { k: { en: "English", ru: "Английский" }, v: { en: "Advanced (B1 level)", ru: "Продвинутый (уровень B1)" } },
 ]
 
 export const cvExperience: Item[] = [
   {
     title: { en: "AI, Automation & Own Projects", ru: "ИИ, автоматизация и собственные проекты" },
-    period: "2024 - Present",
+    period: "2026 - Present",
     text: {
       en: "Working with AI, automation and AI agents, and putting together assorted projects on these topics. Alongside that I develop my own projects on various themes: see the Projects and Changelog pages. Currently focused on AI, databases, reverse engineering and various backend work.",
       ru: "Занимаюсь ИИ, автоматизацией и ИИ-агентами, собираю разные проекты на эти темы. Параллельно разрабатываю собственные проекты на разные тематики: смотри страницы Projects и Changelog. Сейчас в фокусе ИИ, базы данных, reverse engineering и разный бэкенд.",
