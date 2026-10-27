@@ -73,7 +73,8 @@ export default async function ChangelogPage({ params }: { params: Promise<{ slug
           {b.error && b.error !== 'empty' && (
             <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8" role="status">
               <p className="flex items-center gap-3 text-lg font-medium tracking-[-0.03em]"><CloudOff className="size-5 text-muted-foreground" /> <T k="changelog.unavailable" /></p>
-              <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground"><T k="changelog.unavailableHint" /></p>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-foreground/80"><T k={`changelog.err.${b.error}`} /></p>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground"><T k="changelog.unavailableHint" /></p>
             </div>
           )}
           <ol className="relative space-y-6 pl-6 sm:pl-10">

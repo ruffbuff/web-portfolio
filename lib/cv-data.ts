@@ -1,4 +1,6 @@
-// Content of the old /cv page, moved as-is (English only: the old page had no Russian text for it).
+// Content of the /cv page. Long texts are { en, ru }; the same data feeds the PDF (scripts/generate-cv.ts, English).
+
+export type Bi = { en: string; ru: string }
 
 export const cvPersonal = [
   { k: "Age", v: "23 years old" },
@@ -14,46 +16,88 @@ export const cvContacts = [
   { k: "Twitter", v: "@RuffBuff_", href: "https://x.com/RuffBuff_" },
 ]
 
-type Item = { title: string; period: string; text: string; highlight?: boolean }
+export type Item = { title: Bi; period: string; text: Bi; highlight?: boolean }
 
 export const cvEducation: Item[] = [
   {
-    title: "Full Stack Web Development Specialization",
+    title: { en: "Full Stack Web Development Specialization", ru: "Специализация Full Stack Web Development" },
     period: "2022 - 2023",
-    text: "Comprehensive online program covering modern web development technologies including React, Node.js, databases, and deployment strategies. Completed with distinction and built 12 real-world projects.",
+    text: {
+      en: "Comprehensive online program covering modern web development technologies including React, Node.js, databases, and deployment strategies. Completed with distinction and built 12 real-world projects.",
+      ru: "Большая онлайн-программа по современной веб-разработке: React, Node.js, базы данных и деплой. Закончил с отличием и собрал 12 реальных проектов.",
+    },
     highlight: true,
   },
   {
-    title: "Blockchain & Smart Contract Development",
+    title: { en: "Blockchain & Smart Contract Development", ru: "Блокчейн и смарт-контракты" },
     period: "2023 - 2024",
-    text: "Advanced online certification in Solidity programming, DeFi protocols, and blockchain architecture. Focus on security best practices, gas optimization, and integration with Chainlink oracles.",
+    text: {
+      en: "Advanced online certification in Solidity programming, DeFi protocols, and blockchain architecture. Focus on security best practices, gas optimization, and integration with Chainlink oracles.",
+      ru: "Продвинутая онлайн-сертификация по Solidity, DeFi-протоколам и архитектуре блокчейна. Упор на безопасность, оптимизацию газа и интеграцию оракулов Chainlink.",
+    },
     highlight: true,
   },
   {
-    title: "Self-Taught Computer Science & Systems Engineering",
+    title: { en: "Self-Taught Computer Science & Systems Engineering", ru: "Самообучение: Computer Science и системная инженерия" },
     period: "2019 - Present",
-    text: "Self-directed learning through online resources, documentation, and hands-on projects. Focused on algorithms, data structures, system design, and software engineering principles through practical application.",
+    text: {
+      en: "Self-directed learning through online resources, documentation, and hands-on projects. Focused on algorithms, data structures, system design, and software engineering principles through practical application.",
+      ru: "Самостоятельное обучение по онлайн-ресурсам, документации и практическим проектам. Алгоритмы, структуры данных, проектирование систем и инженерные принципы через практику.",
+    },
   },
   {
-    title: "AI/ML Integration Studies",
+    title: { en: "AI, Agents & Linux Studies", ru: "ИИ, агенты и Linux" },
     period: "2024 - Present",
-    text: "Ongoing self-study in artificial intelligence and machine learning integration with web applications. Learning through trial and error, practical AI implementation, and exploring various AI tools and frameworks.",
+    text: {
+      en: "Ongoing self-study in AI and machine learning integration, AI agents and automation, plus reverse engineering and databases. In 2025 went deep into Arch Linux. Learning through trial and error and by building real projects.",
+      ru: "Постоянное самообучение: интеграция ИИ и машинного обучения, ИИ-агенты и автоматизация, а также reverse engineering и базы данных. В 2025 году глубоко погрузился в Arch Linux. Учусь на ошибках и на реальных проектах.",
+    },
   },
 ]
 
-export const cvCoreLanguages = [
-  { name: "Python", text: "Backend development, automation, AI/ML integration" },
-  { name: "JavaScript/TypeScript", text: "Full-stack development, modern frameworks" },
-  { name: "Solidity", text: "Smart contract development, DeFi protocols" },
-  { name: "C++, Lua, Bash", text: "Systems programming and scripting" },
+export const cvCoreLanguages: { name: string; text: Bi }[] = [
+  { name: "Python", text: { en: "Backend development, automation, AI/ML integration, AI agents", ru: "Бэкенд, автоматизация, интеграция ИИ/ML, ИИ-агенты" } },
+  { name: "JavaScript/TypeScript", text: { en: "Full-stack development, modern frameworks", ru: "Full-stack разработка, современные фреймворки" } },
+  { name: "Solidity", text: { en: "Smart contract development, DeFi protocols", ru: "Смарт-контракты, DeFi-протоколы" } },
+  { name: "C++, Lua, Bash", text: { en: "Systems programming and scripting", ru: "Системное программирование и скрипты" } },
 ]
 
-export const cvSkillBlocks = [
-  { title: "Frontend & Frameworks", text: "React.js, Next.js 15, Vite, TailwindCSS, Framer Motion, Web3 integration, Responsive design, Performance optimization" },
-  { title: "Backend & Databases", text: "Node.js, Supabase, NeonDB, MySQL, PostgreSQL, Drizzle ORM, Prisma, RESTful APIs, GraphQL, Authentication systems" },
-  { title: "DevOps & Tools", text: "Arch Linux, Docker, Git, GitHub Actions, Vercel, Netlify, Postman, DataGrip, Neovim, CI/CD pipelines" },
-  { title: "Blockchain & Web3", text: "Smart contract development, Chainlink integration, DeFi protocols, Polygon blockchain, Web3.js, Ethereum ecosystem" },
-  { title: "AI & Emerging Technologies", text: "AI model integration, Machine Learning workflows, WebAssembly, Exploring: Rust, Go, C#, Unreal Engine, Blender" },
+export const cvSkillBlocks: { title: Bi; text: Bi }[] = [
+  {
+    title: { en: "Frontend & Frameworks", ru: "Фронтенд и фреймворки" },
+    text: {
+      en: "React.js, Next.js 15, Vite, TailwindCSS, Framer Motion, Web3 integration, Responsive design, Performance optimization",
+      ru: "React.js, Next.js 15, Vite, TailwindCSS, Framer Motion, Web3-интеграция, адаптивная вёрстка, оптимизация производительности",
+    },
+  },
+  {
+    title: { en: "Backend & Databases", ru: "Бэкенд и базы данных" },
+    text: {
+      en: "Node.js, Supabase, NeonDB, MySQL, PostgreSQL, Drizzle ORM, Prisma, RESTful APIs, GraphQL, Authentication systems, various backend services",
+      ru: "Node.js, Supabase, NeonDB, MySQL, PostgreSQL, Drizzle ORM, Prisma, RESTful API, GraphQL, системы авторизации, разные бэкенд-сервисы",
+    },
+  },
+  {
+    title: { en: "DevOps & Tools", ru: "DevOps и инструменты" },
+    text: {
+      en: "Arch Linux (deep dive in 2025), Docker, Git, GitHub Actions, Vercel, Netlify, Postman, DataGrip, Neovim, CI/CD pipelines",
+      ru: "Arch Linux (глубокое погружение в 2025), Docker, Git, GitHub Actions, Vercel, Netlify, Postman, DataGrip, Neovim, CI/CD",
+    },
+  },
+  {
+    title: { en: "Blockchain & Web3", ru: "Блокчейн и Web3" },
+    text: {
+      en: "Smart contract development, Chainlink integration, DeFi protocols, Polygon blockchain, Web3.js, Ethereum ecosystem",
+      ru: "Разработка смарт-контрактов, интеграция Chainlink, DeFi-протоколы, блокчейн Polygon, Web3.js, экосистема Ethereum",
+    },
+  },
+  {
+    title: { en: "AI, Automation & Reverse Engineering", ru: "ИИ, автоматизация и reverse engineering" },
+    text: {
+      en: "AI agents, AI model integration, automation, Machine Learning workflows, reverse engineering, WebAssembly, Exploring: Rust, Go, C#, Unreal Engine, Blender",
+      ru: "ИИ-агенты, интеграция ИИ-моделей, автоматизация, ML-пайплайны, reverse engineering, WebAssembly, изучаю: Rust, Go, C#, Unreal Engine, Blender",
+    },
+  },
 ]
 
 export const cvSpoken = [
@@ -64,40 +108,84 @@ export const cvSpoken = [
 
 export const cvExperience: Item[] = [
   {
-    title: "Full Stack Developer",
+    title: { en: "AI, Automation & Own Projects", ru: "ИИ, автоматизация и собственные проекты" },
     period: "2024 - Present",
-    text: "Developing full-stack web applications with focus on performance optimization and user experience. Building scalable applications using modern technologies, implementing deployment pipelines through self-learning and experimentation. Achieved significant performance improvements through iterative testing and optimization.",
+    text: {
+      en: "Working with AI, automation and AI agents, and putting together assorted projects on these topics. Alongside that I develop my own projects on various themes: see the Projects and Changelog pages. Currently focused on AI, databases, reverse engineering and various backend work.",
+      ru: "Занимаюсь ИИ, автоматизацией и ИИ-агентами, собираю разные проекты на эти темы. Параллельно разрабатываю собственные проекты на разные тематики: смотри страницы Projects и Changelog. Сейчас в фокусе ИИ, базы данных, reverse engineering и разный бэкенд.",
+    },
     highlight: true,
   },
   {
-    title: "Blockchain Engineer & Smart Contract Developer",
+    title: { en: "Linux (Arch) Deep Dive", ru: "Глубокое погружение в Linux (Arch)" },
+    period: "2025",
+    text: {
+      en: "Spent a large part of 2025 on Arch Linux: built and tuned my own environment, got deep into how the system works and enjoyed it a lot. It became part of how I develop and run my projects.",
+      ru: "Большую часть 2025 года плотно сидел на Arch Linux: собрал и настроил своё окружение, глубоко разобрался, как устроена система, и мне это очень понравилось. Это стало частью того, как я разрабатываю и запускаю проекты.",
+    },
+  },
+  {
+    title: { en: "Full Stack Developer", ru: "Full Stack разработчик" },
+    period: "2024 - Present",
+    text: {
+      en: "Developing full-stack web applications with focus on performance optimization and user experience. Building scalable applications using modern technologies, implementing deployment pipelines through self-learning and experimentation. Achieved significant performance improvements through iterative testing and optimization.",
+      ru: "Разрабатываю full-stack веб-приложения с упором на производительность и удобство. Строю масштабируемые приложения на современных технологиях, настраиваю деплой через самообучение и эксперименты. Заметно ускорил приложения за счёт итеративного тестирования и оптимизации.",
+    },
+    highlight: true,
+  },
+  {
+    title: { en: "Blockchain Engineer & Smart Contract Developer", ru: "Blockchain-инженер и разработчик смарт-контрактов" },
     period: "2023 - 2024",
-    text: "Self-taught blockchain development, specializing in secure smart contracts using Solidity. Learned to integrate Chainlink oracles and DeFi protocols through documentation and hands-on practice. Built multiple blockchain projects by experimenting with different approaches and learning from mistakes.",
+    text: {
+      en: "Self-taught blockchain development, specializing in secure smart contracts using Solidity. Learned to integrate Chainlink oracles and DeFi protocols through documentation and hands-on practice. Built multiple blockchain projects by experimenting with different approaches and learning from mistakes.",
+      ru: "Самостоятельно освоил блокчейн-разработку, специализируясь на безопасных смарт-контрактах на Solidity. Научился интегрировать оракулы Chainlink и DeFi-протоколы по документации и на практике. Собрал несколько блокчейн-проектов, пробуя разные подходы и учась на ошибках.",
+    },
     highlight: true,
   },
   {
-    title: "Freelance Developer",
+    title: { en: "Freelance Developer", ru: "Фриланс-разработчик" },
     period: "2022 - Present",
-    text: "Providing development services including web applications, automation solutions, and AI integration. Learning new technologies as needed for each project, adapting quickly to client requirements through self-study and practical implementation.",
+    text: {
+      en: "Providing development services including web applications, automation solutions, and AI integration. Learning new technologies as needed for each project, adapting quickly to client requirements through self-study and practical implementation.",
+      ru: "Разработка на заказ: веб-приложения, автоматизация и интеграция ИИ. Осваиваю нужные технологии под каждый проект и быстро подстраиваюсь под требования клиентов через самообучение и практику.",
+    },
   },
   {
-    title: "Self-Taught Developer",
+    title: { en: "Self-Taught Developer", ru: "Разработчик-самоучка" },
     period: "2018 - 2022",
-    text: "Started programming journey through online resources and documentation. Learned web development fundamentals, modern frameworks, and development methodologies through trial and error, building various personal projects.",
+    text: {
+      en: "Started programming journey through online resources and documentation. Learned web development fundamentals, modern frameworks, and development methodologies through trial and error, building various personal projects.",
+      ru: "Начал путь в программировании по онлайн-ресурсам и документации. Освоил основы веб-разработки, современные фреймворки и методологии методом проб и ошибок, собирая разные личные проекты.",
+    },
   },
 ]
 
-export const cvHackathons = [
+export const cvHackathons: { icon: "Trophy" | "Gamepad2"; title: Bi; href: string; text: Bi }[] = [
   {
-    icon: "Trophy" as const,
-    title: "Constellation Hackathon 2023",
-    href: "https://github.com/ruffbuff/Hackathon-2023-DynamicAI",
-    text: 'Developed "DynamicAI" - An innovative blockchain-based AI solution that integrates machine learning with smart contracts. Won first place among 200+ participants for technical innovation and implementation quality.',
+    icon: "Gamepad2",
+    title: { en: "GameDev.tv Jam 2026", ru: "GameDev.tv Jam 2026" },
+    href: "https://ruffbuff.itch.io/spellbound",
+    text: {
+      en: 'Took part in the game jam with the theme "Connection". Our team made "Spellbound", a game you can play on itch.io.',
+      ru: 'Участвовал в геймджеме с темой "Connection" (связь). Наша команда сделала игру "Spellbound", в неё можно поиграть на itch.io.',
+    },
   },
   {
-    icon: "Gamepad2" as const,
-    title: "BlockMagic Hackathon 2024",
+    icon: "Trophy",
+    title: { en: "Constellation Hackathon 2023", ru: "Constellation Hackathon 2023" },
+    href: "https://github.com/ruffbuff/Hackathon-2023-DynamicAI",
+    text: {
+      en: 'Developed "DynamicAI" - An innovative blockchain-based AI solution that integrates machine learning with smart contracts. Won first place among 200+ participants for technical innovation and implementation quality.',
+      ru: 'Разработал "DynamicAI" — блокчейн-решение с ИИ, объединяющее машинное обучение и смарт-контракты. Первое место среди 200+ участников за техническую инновацию и качество реализации.',
+    },
+  },
+  {
+    icon: "Gamepad2",
+    title: { en: "BlockMagic Hackathon 2024", ru: "BlockMagic Hackathon 2024" },
     href: "https://github.com/ruffbuff/Hackathon-2024-OnChainTTT",
-    text: 'Created "OnChainTTT" - A fully decentralized Tic-Tac-Toe game on Polygon blockchain. Implemented Chainlink VRF for provably fair randomness and automated game state management. Secured top 10 position in competitive gaming track.',
+    text: {
+      en: 'Created "OnChainTTT" - A fully decentralized Tic-Tac-Toe game on Polygon blockchain. Implemented Chainlink VRF for provably fair randomness and automated game state management. Secured top 10 position in competitive gaming track.',
+      ru: 'Создал "OnChainTTT" — полностью децентрализованные крестики-нолики на блокчейне Polygon. Использовал Chainlink VRF для честной случайности и автоматическое управление состоянием игры. Топ-10 в игровом треке.',
+    },
   },
 ]

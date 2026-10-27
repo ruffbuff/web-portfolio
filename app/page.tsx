@@ -110,9 +110,17 @@ export default function Page() {
             <p><Rich k="home.about.2" /></p>
             <p><Rich k="home.about.3" /></p>
           </div>
-          <p className="border-l border-white/15 pl-6 text-base leading-7 text-muted-foreground sm:text-lg">
-            <Rich k="home.about.4" />
-          </p>
+          <div className="space-y-8 border-l border-white/15 pl-6">
+            <p className="text-base leading-7 text-muted-foreground sm:text-lg">
+              <Rich k="home.about.4" />
+            </p>
+            <div>
+              <p className="eyebrow mb-3"><T k="home.about.nowLabel" /></p>
+              <p className="text-base leading-7 text-muted-foreground sm:text-lg">
+                <Rich k="home.about.5" />
+              </p>
+            </div>
+          </div>
         </Reveal>
       </section>
 

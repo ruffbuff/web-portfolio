@@ -1,9 +1,19 @@
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
+import {
+  cvContacts, cvCoreLanguages, cvEducation, cvExperience, cvHackathons, cvPersonal, cvSkillBlocks, cvSpoken,
+  type Item,
+} from '../lib/cv-data';
+
+const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const items = (list: Item[]) =>
+  list
+    .map((i) => `<div class="item"><div><strong>${esc(i.title.en)}</strong> - ${esc(i.period)}</div><div class="description">${esc(i.text.en)}</div></div>`)
+    .join('\n');
 
 async function generateCV() {
-  // Generate HTML content with full details matching the CV page
+  // The content comes from lib/cv-data.ts (English), the same data as the /cv page, so the PDF cannot drift from the site.
   const html = `
     <!DOCTYPE html>
     <html lang="en">
@@ -68,29 +78,26 @@ async function generateCV() {
     <body>
       <h1>Sergei Avramtsuk</h1>
       <div class="contact">
-        <div>22 years old</div>
-        <div>Originally from Estonia, currently based in Spain</div>
-        <div>Blockchain & IT Developer</div>
+        ${cvPersonal.map((r) => `<div>${esc(r.k)}: ${esc(r.v)}</div>`).join('\n')}
       </div>
 
       <div class="section">
         <h2>Contacts</h2>
-        <div>Telegram: @ruffbuff</div>
-        <div>Email: ruffgreenw@gmail.com</div>
+        ${cvContacts.map((r) => `<div>${esc(r.k)}: ${esc(r.v)}</div>`).join('\n')}
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <h2>Professional Experience</h2>
+        ${items(cvExperience)}
       </div>
 
       <div class="divider"></div>
 
       <div class="section">
         <h2>Education & Self-Learning</h2>
-        <div class="item">
-          <div><strong>Programming Courses</strong> - 2023 - 2025</div>
-          <div class="description">Self-taught developer, completed various programming courses</div>
-        </div>
-        <div class="item">
-          <div><strong>Smart Contracts Development</strong> - 2021 - 2023</div>
-          <div class="description">Learning smart contract development and Chainlink tools</div>
-        </div>
+        ${items(cvEducation)}
       </div>
 
       <div class="divider"></div>
@@ -98,63 +105,24 @@ async function generateCV() {
       <div class="section">
         <h2>Skills</h2>
         <div class="item">
-          <h3>Programming Languages</h3>
-          <div class="skills-list"><strong>Primary:</strong> Python, JavaScript/TypeScript, Solidity, HTML/CSS</div>
-          <div class="skills-list"><strong>Secondary:</strong> Lua, Bash</div>
+          <h3>Languages</h3>
+          ${cvCoreLanguages.map((l) => `<div class="skills-list"><strong>${esc(l.name)}:</strong> ${esc(l.text.en)}</div>`).join('\n')}
         </div>
-        <div class="item">
-          <h3>Technical Skills</h3>
-          <div class="skills-list">Blockchain Development, Smart Contracts, Web3, Node.js, React, Next.js, Telegram Bot Development, API Integration, Database Management</div>
-        </div>
-        <div class="item">
-          <h3>Soft Skills</h3>
-          <div class="skills-list">Development, Project Management, Team Leadership, Problem Solving, Communication, Adaptability, Self-Learning</div>
-        </div>
+        ${cvSkillBlocks.map((b) => `<div class="item"><h3>${esc(b.title.en)}</h3><div class="skills-list">${esc(b.text.en)}</div></div>`).join('\n')}
       </div>
 
       <div class="divider"></div>
 
       <div class="section">
-        <h2>Professional Experience</h2>
-        <div class="item">
-          <div><strong>Full Stack Developer</strong> - 2024 - Present</div>
-          <div class="description">Developing full-stack web applications with focus on performance optimization and user experience. Building scalable applications using modern technologies, implementing deployment pipelines through self-learning and experimentation. Achieved significant performance improvements through iterative testing and optimization.</div>
-        </div>
-        <div class="item">
-          <div><strong>Blockchain Engineer & Smart Contract Developer</strong> - 2023 - 2024</div>
-          <div class="description">Self-taught blockchain development, specializing in secure smart contracts using Solidity. Learned to integrate Chainlink oracles and DeFi protocols through documentation and hands-on practice. Built multiple blockchain projects by experimenting with different approaches and learning from mistakes.</div>
-        </div>
-        <div class="item">
-          <div><strong>Freelance Developer</strong> - 2022 - Present</div>
-          <div class="description">Providing development services including web applications, automation solutions, and AI integration. Learning new technologies as needed for each project, adapting quickly to client requirements through self-study and practical implementation.</div>
-        </div>
-        <div class="item">
-          <div><strong>Self-Taught Developer</strong> - 2018 - 2022</div>
-          <div class="description">Started programming journey through online resources and documentation. Learned web development fundamentals, modern frameworks, and development methodologies through trial and error, building various personal projects.</div>
-        </div>
+        <h2>Spoken Languages</h2>
+        ${cvSpoken.map((r) => `<div>${esc(r.k)} - ${esc(r.v)}</div>`).join('\n')}
       </div>
 
       <div class="divider"></div>
 
       <div class="section">
-        <h2>Languages</h2>
-        <div>Russian - C1</div>
-        <div>Estonian - B2</div>
-        <div>English - B2</div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="section">
-        <h2>Hackathons</h2>
-        <div class="item">
-          <div><strong>Chainlink Constellation Hackathon 2023</strong></div>
-          <div class="description">Developed "DynamicAI" - a blockchain-based AI solution. Project focused on integrating AI with blockchain technology for dynamic content generation and management.</div>
-        </div>
-        <div class="item">
-          <div><strong>Chainlink BlockMagic Hackathon 2024</strong></div>
-          <div class="description">Created "OnChainTTT" - a decentralized Tic-Tac-Toe game on Polygon blockchain. Implemented Chainlink VRF for provably fair randomness and automated game state management.</div>
-        </div>
+        <h2>Competitions</h2>
+        ${cvHackathons.map((h) => `<div class="item"><div><strong>${esc(h.title.en)}</strong> - <a href="${h.href}">${esc(h.href.replace('https://', ''))}</a></div><div class="description">${esc(h.text.en)}</div></div>`).join('\n')}
       </div>
     </body>
     </html>

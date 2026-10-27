@@ -40,6 +40,38 @@ function buildWeeks(year: number, data: GitHubContribution[]): Cell[][] {
   return weeks
 }
 
+const cap = (v: string) => v.charAt(0).toUpperCase() + v.slice(1)
+
+type Stats = { active: number; longest: number; best: { count: number; date: string } | null; topMonth: { month: number; count: number } | null }
+
+/** Numbers for the stat tiles, from the same data as the heatmap. Days after today (current year) are ignored. */
+function computeStats(data: GitHubContribution[]): Stats {
+  const today = new Date().toISOString().slice(0, 10)
+  const days = data.filter((d) => d.date <= today).sort((a, b) => a.date.localeCompare(b.date))
+  let active = 0
+  let longest = 0
+  let run = 0
+  let prev = 0
+  let best: Stats["best"] = null
+  const months = new Array<number>(12).fill(0)
+  for (const d of days) {
+    const ts = Date.parse(`${d.date}T00:00:00Z`)
+    if (d.count > 0) {
+      active++
+      run = prev && ts - prev === DAY_MS ? run + 1 : 1
+      longest = Math.max(longest, run)
+      prev = ts
+      if (!best || d.count > best.count) best = { count: d.count, date: d.date }
+      months[Number(d.date.slice(5, 7)) - 1] += d.count
+    } else {
+      run = 0
+      prev = 0
+    }
+  }
+  const top = months.reduce((bi, c, i, a) => (c > a[bi] ? i : bi), 0)
+  return { active, longest, best, topMonth: months[top] > 0 ? { month: top, count: months[top] } : null }
+}
+
 type State = { status: "loading" } | { status: "error"; code?: string } | { status: "ok"; data: GitHubContribution[] }
 
 export function GitHubContributions() {
@@ -68,6 +100,24 @@ export function GitHubContributions() {
   const weeks = useMemo(() => buildWeeks(year, state.status === "ok" ? state.data : []), [year, state])
   const total = state.status === "ok" ? state.data.reduce((s, d) => s + d.count, 0) : 0
   const monthFmt = useMemo(() => new Intl.DateTimeFormat(language === "ru" ? "ru-RU" : "en-US", { month: "short", timeZone: "UTC" }), [language])
+  const stats = useMemo(() => (state.status === "ok" ? computeStats(state.data) : null), [state])
+  const locale = language === "ru" ? "ru-RU" : "en-US"
+  const longMonth = useMemo(() => new Intl.DateTimeFormat(locale, { month: "long", timeZone: "UTC" }), [locale])
+  const shortDate = useMemo(() => new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", timeZone: "UTC" }), [locale])
+  const tiles = [
+    { label: t("github.stat.active"), value: stats ? `${stats.active} ${t("github.days")}` : "—" },
+    { label: t("github.stat.streak"), value: stats ? `${stats.longest} ${t("github.days")}` : "—" },
+    {
+      label: t("github.stat.best"),
+      value: stats?.best ? String(stats.best.count) : "—",
+      note: stats?.best ? shortDate.format(new Date(`${stats.best.date}T00:00:00Z`)) : undefined,
+    },
+    {
+      label: t("github.stat.month"),
+      value: stats?.topMonth ? cap(longMonth.format(new Date(Date.UTC(year, stats.topMonth.month, 1)))) : "—",
+      note: stats?.topMonth ? String(stats.topMonth.count) : undefined,
+    },
+  ]
   const monthAt = useMemo(() => {
     const labels: Record<number, string> = {}
     weeks.forEach((w, i) => {
@@ -114,37 +164,37 @@ export function GitHubContributions() {
       </div>
 
       <div ref={scroller} className="overflow-x-auto pb-2" tabIndex={0} aria-label={t("github.eyebrow")}>
-        <div className={cn("w-max transition-opacity duration-300", state.status === "ok" ? "opacity-100" : "opacity-40")}>
+        <div className={cn("min-w-[44rem] transition-opacity duration-300", state.status === "ok" ? "opacity-100" : "opacity-40")}>
           <div className="relative mb-1.5 ml-8 h-4 text-[10px] text-muted-foreground">
             {Object.entries(monthAt).map(([i, label]) => (
-              <span key={i} className="absolute top-0" style={{ left: `${Number(i) * 14}px` }}>
+              <span key={i} className="absolute top-0" style={{ left: `${(Number(i) / weeks.length) * 100}%` }}>
                 {label}
               </span>
             ))}
           </div>
-          <div className="flex gap-[3px]">
-            <div className="flex w-7 flex-col gap-[3px] pr-1 text-[10px] leading-[11px] text-muted-foreground" aria-hidden>
+          <div className="flex items-stretch gap-[3px]">
+            <div className="grid w-7 shrink-0 grid-rows-7 gap-[3px] pr-1 text-[10px] leading-none text-muted-foreground" aria-hidden>
               {["", t("github.mon"), "", t("github.wed"), "", t("github.fri"), ""].map((d, i) => (
-                <span key={i} className="h-[11px]">
+                <span key={i} className="flex items-center">
                   {d}
                 </span>
               ))}
             </div>
-            {weeks.map((w, wi) => (
-              <div key={wi} className="flex flex-col gap-[3px]">
-                {w.map((c, di) =>
+            <div className="grid min-w-0 flex-1 grid-flow-col grid-rows-7 gap-[3px]" style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))` }}>
+              {weeks.flatMap((w, wi) =>
+                w.map((c, di) =>
                   c ? (
                     <span
-                      key={di}
+                      key={`${wi}-${di}`}
                       title={`${c.date}: ${c.count}`}
-                      className={cn("size-[11px] rounded-[3px] transition-transform hover:scale-150", LEVELS[level(c.count)])}
+                      className={cn("aspect-square w-full rounded-[3px] transition-transform hover:scale-150", LEVELS[level(c.count)])}
                     />
                   ) : (
-                    <span key={di} className="size-[11px]" />
+                    <span key={`${wi}-${di}`} className="aspect-square w-full" />
                   ),
-                )}
-              </div>
-            ))}
+                ),
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -159,6 +209,17 @@ export function GitHubContributions() {
           <span>{t("github.more")}</span>
         </div>
       </div>
+      <dl className="mt-6 grid grid-cols-2 gap-3 border-t border-white/10 pt-6 lg:grid-cols-4">
+        {tiles.map((x) => (
+          <div key={x.label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{x.label}</dt>
+            <dd className="mt-2 flex flex-wrap items-baseline gap-x-2 text-xl font-medium tracking-[-0.03em] sm:text-2xl">
+              {x.value}
+              {x.note && <span className="font-mono text-[11px] font-normal normal-case tracking-normal text-muted-foreground">{x.note}</span>}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
   )
 }
