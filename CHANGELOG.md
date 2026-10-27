@@ -1,7 +1,6 @@
 # Changelog
 
-All notable changes to the portfolio site. Newest first. This file is what `/changelog/portfolio` on the site shows
-(it is fetched from GitHub, see "Changelog" in README.md).
+Notable changes to the portfolio site, newest first.
 
 ## 2026-10-27 — Fixes v3
 
