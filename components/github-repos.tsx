@@ -7,6 +7,7 @@ import { Reveal } from "@/components/reveal"
 import { Spotlight } from "@/components/spotlight"
 import { SvgIcon } from "@/components/ui/svg-icon"
 import { formatDate } from "@/lib/format"
+import { site } from "@/lib/site"
 import type { GitHubRepo } from "@/lib/github"
 
 /** Featured repositories from the GitHub API (/api/github/repos?featured=true), as on the old home page. */
@@ -26,7 +27,15 @@ export function GitHubRepos() {
     return () => ctrl.abort()
   }, [])
 
-  if (failed) return <p className="text-sm text-muted-foreground">{t("github.reposUnavailable")}</p>
+  if (failed)
+    return (
+      <p className="text-sm text-muted-foreground">
+        {t("github.reposUnavailable")}{" "}
+        <a href={site.github} target="_blank" rel="noopener noreferrer" className="text-foreground underline underline-offset-4 transition-colors hover:text-primary">
+          {t("github.viewOnGithub")}
+        </a>
+      </p>
+    )
   if (!repos) return <p className="text-sm text-muted-foreground">{t("github.loadingRepos")}</p>
   if (repos.length === 0) return <p className="text-sm text-muted-foreground">{t("github.noRepos")}</p>
 

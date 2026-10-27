@@ -148,11 +148,11 @@ async function generateCV() {
       <div class="section">
         <h2>Hackathons</h2>
         <div class="item">
-          <div><strong>🏆 Chainlink Constellation Hackathon 2023</strong></div>
+          <div><strong>Chainlink Constellation Hackathon 2023</strong></div>
           <div class="description">Developed "DynamicAI" - a blockchain-based AI solution. Project focused on integrating AI with blockchain technology for dynamic content generation and management.</div>
         </div>
         <div class="item">
-          <div><strong>🎮 Chainlink BlockMagic Hackathon 2024</strong></div>
+          <div><strong>Chainlink BlockMagic Hackathon 2024</strong></div>
           <div class="description">Created "OnChainTTT" - a decentralized Tic-Tac-Toe game on Polygon blockchain. Implemented Chainlink VRF for provably fair randomness and automated game state management.</div>
         </div>
       </div>

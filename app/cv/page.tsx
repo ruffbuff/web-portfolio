@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { Download } from 'lucide-react'
-import { T } from '@/components/language-provider'
+import { Download, Gamepad2, HardHat, Laptop, Link2, Trophy, type LucideIcon } from 'lucide-react'
+import { Bi, T } from '@/components/language-provider'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
@@ -8,10 +8,15 @@ import { Spotlight } from '@/components/spotlight'
 import {
   cvContacts, cvCoreLanguages, cvEducation, cvExperience, cvHackathons, cvPersonal, cvSkillBlocks, cvSpoken,
 } from '@/lib/cv-data'
-import { site } from '@/lib/site'
+import { roles, site } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = { title: 'CV' }
+
+const ICONS: Record<string, LucideIcon> = { Laptop, Gamepad2, Link2, HardHat, Trophy }
+
+// Stages of the former /work "experience" block (texts live in the translations).
+const journey = ['basics', 'trading', 'smart', 'fullstack']
 
 type Item = { title: string; period: string; text: string; highlight?: boolean }
 
@@ -91,13 +96,55 @@ export default function CvPage() {
             <Timeline items={cvExperience} />
           </section>
 
+          <section aria-label="Roles">
+            <SectionHeading index="02" eyebrow={<T k="cv.roles.eyebrow" />} title={<T k="cv.roles.title" />} />
+            <div className="grid gap-3 sm:grid-cols-2">
+              {roles.map((r, i) => {
+                const Icon = ICONS[r.icon]
+                return (
+                  <Reveal key={r.name} delay={(i % 2) * 80}>
+                    <Spotlight className="h-full rounded-2xl">
+                      <span className="spot-ring" />
+                      <div className="spot-body flex items-center gap-5 p-6">
+                        <span className="flex size-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] text-primary" aria-hidden><Icon className="size-6" /></span>
+                        <div>
+                          <h3 className="text-2xl font-medium tracking-[-0.04em]">{r.name}</h3>
+                          <p className="mt-1 font-mono text-xs text-muted-foreground"><Bi v={r.period} /></p>
+                        </div>
+                      </div>
+                    </Spotlight>
+                  </Reveal>
+                )
+              })}
+            </div>
+          </section>
+
+          <section aria-label="Journey">
+            <SectionHeading index="03" eyebrow={<T k="cv.journey.eyebrow" />} title={<T k="experience.title" />} />
+            <ol className="relative space-y-5 pl-6 sm:pl-10">
+              <span className="tl-line" aria-hidden />
+              {journey.map((j) => (
+                <li key={j} className="relative">
+                  <span className="absolute -left-[1.85rem] top-7 size-3 rounded-full border-2 border-background bg-gradient-to-br from-[var(--amber)] to-[var(--pink)] shadow-[0_0_14px_var(--pink)] sm:-left-[2.85rem]" />
+                  <Reveal>
+                    <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-5 transition-colors hover:border-white/20 sm:p-6">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary"><T k={`experience.${j}.period`} /></p>
+                      <h3 className="mt-2 text-xl font-medium tracking-[-0.03em] sm:text-2xl"><T k={`experience.${j}.title`} /></h3>
+                      <p className="mt-3 text-sm leading-6 text-muted-foreground"><T k={`experience.${j}.description`} /></p>
+                    </div>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
+          </section>
+
           <section aria-label="Education">
-            <SectionHeading index="02" eyebrow={<T k="cv.education.eyebrow" />} title={<T k="cv.education.title" />} />
+            <SectionHeading index="04" eyebrow={<T k="cv.education.eyebrow" />} title={<T k="cv.education.title" />} />
             <Timeline items={cvEducation} />
           </section>
 
           <section aria-label="Skills">
-            <SectionHeading index="03" eyebrow={<T k="cv.skills.eyebrow" />} title={<T k="cv.skills.title" />} />
+            <SectionHeading index="05" eyebrow={<T k="cv.skills.eyebrow" />} title={<T k="cv.skills.title" />} />
             <div className="grid gap-3 sm:grid-cols-2">
               {cvCoreLanguages.map((l) => (
                 <Reveal key={l.name}>
@@ -119,14 +166,16 @@ export default function CvPage() {
           </section>
 
           <section aria-label="Hackathons">
-            <SectionHeading index="04" eyebrow={<T k="cv.hackathons.eyebrow" />} title={<T k="cv.hackathons.title" />} />
+            <SectionHeading index="06" eyebrow={<T k="cv.hackathons.eyebrow" />} title={<T k="cv.hackathons.title" />} />
             <div className="grid gap-4 md:grid-cols-2">
               {cvHackathons.map((h) => (
                 <Reveal key={h.title}>
                   <Spotlight className="spot-lift h-full rounded-3xl">
                     <span className="spot-ring" />
                     <a href={h.href} target="_blank" rel="noopener noreferrer" data-cursor="hot" className="spot-body block h-full p-6">
-                      <span className="text-3xl" aria-hidden>{h.emoji}</span>
+                      <span className="flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] text-primary" aria-hidden>
+                        {(() => { const Icon = ICONS[h.icon]; return <Icon className="size-6" /> })()}
+                      </span>
                       <h3 className="mt-4 text-xl font-medium tracking-[-0.03em]">{h.title}</h3>
                       <p className="mt-3 text-sm leading-6 text-muted-foreground">{h.text}</p>
                     </a>

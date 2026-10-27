@@ -1,4 +1,4 @@
-import type { BacklogStatus } from "@/lib/backlogs"
+import type { ChangelogStatus } from "@/lib/changelog-sources"
 
 export type Lang = "en" | "ru"
 
@@ -12,8 +12,8 @@ export function formatDate(date: string, lang: Lang = "en"): string {
   })
 }
 
-export const STATUS_KEY: Record<BacklogStatus, string> = {
-  open: "backlogs.status.open",
-  closed: "backlogs.status.closed",
-  soon: "backlogs.status.soon",
+export const STATUS_KEY: Record<ChangelogStatus, string> = {
+  open: "changelog.status.open",
+  closed: "changelog.status.closed",
+  soon: "changelog.status.soon",
 }

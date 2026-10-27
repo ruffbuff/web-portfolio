@@ -1,4 +1,18 @@
-export class GitHubConfigError extends Error {}
+/**
+ * Why a GitHub call failed. The UI/route turn it into a calm "temporarily unavailable" state:
+ *  no-token   - GITHUB_TOKEN is not set (needed for the contribution graph; also lifts the 60 req/h anonymous limit)
+ *  rate-limit - GitHub rate limit (Vercel shares IPs, so anonymous requests hit it quickly)
+ *  auth       - the token is invalid / expired / lacks access
+ *  upstream   - GitHub answered with an error, or the request failed / timed out
+ */
+export type GitHubErrorCode = 'no-token' | 'rate-limit' | 'auth' | 'upstream'
+
+export class GitHubError extends Error {
+  constructor(public code: GitHubErrorCode, message: string) {
+    super(message)
+    this.name = 'GitHubError'
+  }
+}
 
 export interface GitHubUser {
   login: string
@@ -31,6 +45,7 @@ export interface GitHubRepo {
   topics: string[]
   fork: boolean
   archived: boolean
+  private?: boolean
 }
 
 export interface GitHubContribution {
@@ -38,85 +53,76 @@ export interface GitHubContribution {
   count: number
 }
 
-export interface LanguageStats {
-  [language: string]: number
-}
-
 const GITHUB_API_URL = 'https://api.github.com'
 const username = process.env.GITHUB_USERNAME || 'ruffbuff'
+const REVALIDATE = 3600 // seconds: GitHub data is cached for an hour (Next data cache)
 
-async function fetchGitHub(endpoint: string): Promise<any> {
-  // The token is optional for REST calls (public data): without it the anonymous rate limit applies
-  // (60 requests/hour per IP), which is enough for local development.
-  const token = process.env.GITHUB_TOKEN
+// Last successful answer per request (lives as long as the server instance): shown when GitHub fails later.
+const lastGood = new Map<string, unknown>()
 
-  const response = await fetch(`${GITHUB_API_URL}${endpoint}`, {
-    headers: {
-      ...(token ? { 'Authorization': `token ${token}` } : {}),
-      'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'RuffBuff-Portfolio',
-    },
-    next: { revalidate: 3600 }, // Cache for 1 hour
-  })
-
-  if (!response.ok) {
-    throw new Error(`GitHub API error: ${response.status} ${response.statusText}`)
+function headers(token: string | undefined, extra: Record<string, string> = {}) {
+  return {
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'User-Agent': 'RuffBuff-Portfolio',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...extra,
   }
+}
 
-  return response.json()
+function errorFor(res: Response, hasToken: boolean): GitHubError {
+  const limited = res.status === 429 || (res.status === 403 && res.headers.get('x-ratelimit-remaining') === '0')
+  if (limited) return new GitHubError(hasToken ? 'rate-limit' : 'no-token', `GitHub rate limit (${res.status})`)
+  if (res.status === 401 || res.status === 403) return new GitHubError('auth', `GitHub refused the token (${res.status})`)
+  return new GitHubError('upstream', `GitHub API error: ${res.status} ${res.statusText}`)
+}
+
+/** GET/POST to GitHub with cache, timeout, error codes and a last-good fallback. */
+async function request<T>(key: string, url: string, init: RequestInit = {}): Promise<T> {
+  // The token is optional for public REST data (anonymous limit: 60 requests/hour per IP, which a shared Vercel IP burns quickly),
+  // so set GITHUB_TOKEN on the server: it raises the limit to 5000/h and is required for the contribution graph.
+  const token = process.env.GITHUB_TOKEN
+  try {
+    const res = await fetch(url, {
+      ...init,
+      headers: { ...headers(token), ...(init.headers as Record<string, string> | undefined) },
+      next: { revalidate: REVALIDATE, tags: ['github'] },
+      signal: AbortSignal.timeout(10_000),
+    })
+    if (!res.ok) throw errorFor(res, Boolean(token))
+    const data = (await res.json()) as T
+    lastGood.set(key, data)
+    return data
+  } catch (e) {
+    const err = e instanceof GitHubError ? e : new GitHubError('upstream', e instanceof Error ? e.message : 'GitHub request failed')
+    if (lastGood.has(key)) {
+      console.warn(`[github] ${key}: ${err.message}; serving the last good answer`)
+      return lastGood.get(key) as T
+    }
+    throw err
+  }
 }
 
 export async function getGitHubUser(): Promise<GitHubUser> {
-  return fetchGitHub(`/users/${username}`)
+  return request('user', `${GITHUB_API_URL}/users/${username}`)
 }
 
 export async function getGitHubRepos(): Promise<GitHubRepo[]> {
-  const repos = await fetchGitHub(`/users/${username}/repos?sort=updated&per_page=100`)
-  
-  // Filter out forks and archived repos, sort by stars and recent activity
+  const repos = await request<GitHubRepo[]>('repos', `${GITHUB_API_URL}/users/${username}/repos?sort=updated&per_page=100&type=owner`)
+
+  // Only public, non-fork, non-archived repos; sort by stars, then by recent activity
   return repos
-    .filter((repo: GitHubRepo) => !repo.fork && !repo.archived)
-    .sort((a: GitHubRepo, b: GitHubRepo) => {
-      // Sort by stars first, then by recent activity
-      if (a.stargazers_count !== b.stargazers_count) {
-        return b.stargazers_count - a.stargazers_count
-      }
+    .filter((repo) => !repo.private && !repo.fork && !repo.archived)
+    .sort((a, b) => {
+      if (a.stargazers_count !== b.stargazers_count) return b.stargazers_count - a.stargazers_count
       return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
     })
 }
 
-export async function getLanguageStats(): Promise<LanguageStats> {
-  const repos = await getGitHubRepos()
-  const languageStats: LanguageStats = {}
-
-  // Get language stats for each repo
-  await Promise.all(
-    repos.slice(0, 20).map(async (repo) => {
-      if (repo.language) {
-        try {
-          const languages = await fetchGitHub(`/repos/${repo.full_name}/languages`)
-          
-          Object.entries(languages).forEach(([lang, bytes]) => {
-            languageStats[lang] = (languageStats[lang] || 0) + (bytes as number)
-          })
-        } catch (error) {
-          // Skip repos with language API issues
-          console.warn(`Could not fetch languages for ${repo.full_name}`)
-        }
-      }
-    })
-  )
-
-  return languageStats
-}
-
 export async function getContributionData(year?: number): Promise<GitHubContribution[]> {
-  // The GraphQL API requires authentication (no anonymous access): set GITHUB_TOKEN in .env.local / Vercel env.
+  // The GraphQL API has no anonymous access: set GITHUB_TOKEN (Vercel -> Settings -> Environment Variables).
   const token = process.env.GITHUB_TOKEN
-
-  if (!token) {
-    throw new GitHubConfigError('GITHUB_TOKEN environment variable is required for contribution data')
-  }
+  if (!token) throw new GitHubError('no-token', 'GITHUB_TOKEN environment variable is required for contribution data')
 
   // Calculate date range for the specified year
   const targetYear = year || new Date().getFullYear()
@@ -141,37 +147,24 @@ export async function getContributionData(year?: number): Promise<GitHubContribu
     }
   `
 
-  const response = await fetch('https://api.github.com/graphql', {
+  const targetKey = `contributions:${targetYear}`
+  const data = await request<any>(targetKey, `${GITHUB_API_URL}/graphql`, {
     method: 'POST',
-    headers: {
-      'Authorization': `token ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query,
-      variables: { username, from, to },
-    }),
-    next: { revalidate: 3600 }, // Cache for 1 hour
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, variables: { username, from, to } }),
   })
 
-  if (!response.ok) {
-    throw new Error(`GitHub GraphQL API error: ${response.status} ${response.statusText}`)
-  }
-
-  const data = await response.json()
-  
-  if (data.errors) {
-    throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`)
+  const calendar = data?.data?.user?.contributionsCollection?.contributionCalendar
+  if (data?.errors || !calendar) {
+    // GraphQL answers 200 with "errors" (bad token scope, user not found, ...): treat as a failure and keep the last good data
+    lastGood.delete(targetKey)
+    throw new GitHubError('upstream', `GraphQL errors: ${JSON.stringify(data?.errors ?? 'empty response')}`)
   }
 
   const contributions: GitHubContribution[] = []
-  
-  data.data.user.contributionsCollection.contributionCalendar.weeks.forEach((week: any) => {
+  calendar.weeks.forEach((week: any) => {
     week.contributionDays.forEach((day: any) => {
-      contributions.push({
-        date: day.date,
-        count: day.contributionCount,
-      })
+      contributions.push({ date: day.date, count: day.contributionCount })
     })
   })
 
@@ -194,7 +187,7 @@ export async function getFeaturedRepos(): Promise<GitHubRepo[]> {
     return (
       repo.stargazers_count > 0 || // Has stars
       portfolioKeywords.some(keyword => repoText.includes(keyword)) || // Has portfolio keywords
-      repo.homepage || // Has a homepage/demo
+      Boolean(repo.homepage) || // Has a homepage/demo
       repo.topics?.length > 0 // Has topics (usually means it's well-maintained)
     )
   })
@@ -202,26 +195,11 @@ export async function getFeaturedRepos(): Promise<GitHubRepo[]> {
   return featured.slice(0, 6) // Return top 6 featured repos
 }
 
-// Helper function to get language color (GitHub's official colors)
-export function getLanguageColor(language: string): string {
-  const colors: { [key: string]: string } = {
-    JavaScript: '#f1e05a',
-    TypeScript: '#3178c6',
-    Python: '#3572A5',
-    Solidity: '#AA6C39',
-    HTML: '#e34c26',
-    CSS: '#1572B6',
-    Lua: '#000080',
-    Shell: '#89e051',
-    'Jupyter Notebook': '#DA5B0B',
-    Dockerfile: '#384d54',
-    Vue: '#4FC08D',
-    React: '#61DAFB',
-    'C++': '#f34b7d',
-    Go: '#00ADD8',
-    Rust: '#dea584',
-    Java: '#b07219',
-  }
-  
-  return colors[language] || '#8b949e'
+/** CDN caching for the API routes (Vercel edge): an hour for good answers, a short pause for failures so we do not hammer GitHub. */
+export const CACHE_OK = 'public, s-maxage=3600, stale-while-revalidate=86400'
+export const CACHE_ERROR = 'public, s-maxage=60, stale-while-revalidate=300'
+
+export function githubErrorStatus(error: unknown): { code: GitHubErrorCode; status: number } {
+  const code = error instanceof GitHubError ? error.code : 'upstream'
+  return { code, status: 503 }
 }
