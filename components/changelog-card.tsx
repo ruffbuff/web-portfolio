@@ -6,9 +6,12 @@ import { DateText } from '@/components/date-text'
 import { T } from '@/components/language-provider'
 import type { Changelog } from '@/lib/changelog'
 
+const PREVIEW_MAX = 8
+
 /** Changelog tile: header, summary and a mini "log" preview built from the real latest entries. */
 export function ChangelogCard({ b, index }: { b: Changelog; index: number }) {
-  const latest = b.entries.slice(0, 3)
+  // As many entries as fit the height of the preview (whole entries only); the cap keeps the DOM small.
+  const latest = b.entries.slice(0, PREVIEW_MAX)
   return (
     <Spotlight className="spot-lift group h-full">
       <span className="spot-ring" />
@@ -36,29 +39,31 @@ export function ChangelogCard({ b, index }: { b: Changelog; index: number }) {
           </div>
         </div>
 
-        {/* mini log preview */}
-        <div className="relative rounded-2xl border border-white/10 bg-black/30 p-4 font-mono text-[11px]" aria-hidden={!b.error}>
-          <div className="mb-3 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+        {/* mini log preview: the panel stretches to the height of the card; entries that do not fit wrap into a hidden column, so none is cut in the middle */}
+        <div className="relative h-72 rounded-2xl border border-white/10 bg-black/30 font-mono text-[11px] md:h-auto md:min-h-[25rem]" aria-hidden={!b.error}>
+          <div className="absolute inset-x-4 top-4 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
             <span>log / latest</span>
-            <span><DateText date={b.updated} /></span>
+            <span>{b.updated ? <DateText date={b.updated} /> : b.entries[0]?.title}</span>
           </div>
           {b.error ? (
-            <div className="flex items-center gap-3 py-4 text-muted-foreground">
+            <div className="absolute inset-x-4 top-12 flex items-center gap-3 text-muted-foreground">
               <CloudOff className="size-4 shrink-0" />
-              <span className="font-sans text-xs leading-5"><T k="changelog.unavailable" /><br /><span className="opacity-70"><T k={`changelog.err.${b.error}`} /></span></span>
+              <span className="font-sans text-xs leading-5"><T k="changelog.unavailable" /></span>
             </div>
           ) : (
-            <ol className="relative space-y-3 border-l border-white/10 pl-4">
-              {latest.map((e, i) => (
-                <li key={e.id} className="relative">
-                  <span className={`absolute -left-[1.3rem] top-1 size-2 rounded-full ${i === 0 ? 'bg-primary shadow-[0_0_10px_var(--amber)]' : 'bg-white/25'}`} />
-                  <span className="block text-muted-foreground">{e.date}</span>
-                  <span className="block truncate text-foreground/85">{e.title || '—'}</span>
-                </li>
-              ))}
-            </ol>
+            <div className="absolute inset-x-4 bottom-3 top-11 overflow-hidden">
+              <ol className="ml-2 flex h-full flex-col flex-wrap content-start gap-x-8 gap-y-3 border-l border-white/10 pl-4">
+                {latest.map((e, i) => (
+                  <li key={e.id} className="relative w-full shrink-0">
+                    <span className={`absolute -left-[1.3rem] top-1 size-2 rounded-full ${i === 0 ? 'bg-primary shadow-[0_0_10px_var(--amber)]' : 'bg-white/25'}`} />
+                    {e.date && <span className="block text-muted-foreground">{e.date}</span>}
+                    <span className="block truncate text-foreground/85">{e.title || '—'}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
           )}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-2xl bg-gradient-to-t from-black/40 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-px bottom-px h-10 rounded-b-2xl bg-gradient-to-t from-black/50 to-transparent" />
         </div>
       </Link>
     </Spotlight>

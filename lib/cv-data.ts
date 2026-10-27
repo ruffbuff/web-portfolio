@@ -30,7 +30,24 @@ export const cvContacts: Row[] = [
 
 export type Item = { title: Bi; period: string; text: Bi; highlight?: boolean }
 
+// Newest first (by start year), same as cvExperience.
 export const cvEducation: Item[] = [
+  {
+    title: { en: "AI, Agents & Automation Studies", ru: "ИИ, агенты и автоматизация" },
+    period: "2026 - Present",
+    text: {
+      en: "Ongoing self-study in AI and machine learning integration, AI agents and automation, plus reverse engineering and databases. Learning through trial and error and by building real projects.",
+      ru: "Постоянное самообучение: интеграция ИИ и машинного обучения, ИИ-агенты и автоматизация, а также reverse engineering и базы данных. Учусь на ошибках и на реальных проектах.",
+    },
+  },  {
+    title: { en: "Blockchain & Smart Contract Development", ru: "Блокчейн и смарт-контракты" },
+    period: "2023 - 2024",
+    text: {
+      en: "Advanced online certification in Solidity programming, DeFi protocols, and blockchain architecture. Focus on security best practices, gas optimization, and integration with Chainlink oracles.",
+      ru: "Продвинутая онлайн-сертификация по Solidity, DeFi-протоколам и архитектуре блокчейна. Упор на безопасность, оптимизацию газа и интеграцию оракулов Chainlink.",
+    },
+    highlight: true,
+  },
   {
     title: { en: "Full Stack Web Development Specialization", ru: "Специализация Full Stack Web Development" },
     period: "2022 - 2023",
@@ -41,28 +58,11 @@ export const cvEducation: Item[] = [
     highlight: true,
   },
   {
-    title: { en: "Blockchain & Smart Contract Development", ru: "Блокчейн и смарт-контракты" },
-    period: "2023 - 2024",
-    text: {
-      en: "Advanced online certification in Solidity programming, DeFi protocols, and blockchain architecture. Focus on security best practices, gas optimization, and integration with Chainlink oracles.",
-      ru: "Продвинутая онлайн-сертификация по Solidity, DeFi-протоколам и архитектуре блокчейна. Упор на безопасность, оптимизацию газа и интеграцию оракулов Chainlink.",
-    },
-    highlight: true,
-  },
-  {
     title: { en: "Self-Taught Computer Science & Systems Engineering", ru: "Самообучение: Computer Science и системная инженерия" },
     period: "2019 - Present",
     text: {
       en: "Self-directed learning through online resources, documentation, and hands-on projects. Focused on algorithms, data structures, system design, and software engineering principles through practical application.",
       ru: "Самостоятельное обучение по онлайн-ресурсам, документации и практическим проектам. Алгоритмы, структуры данных, проектирование систем и инженерные принципы через практику.",
-    },
-  },
-  {
-    title: { en: "AI, Agents & Automation Studies", ru: "ИИ, агенты и автоматизация" },
-    period: "2026 - Present",
-    text: {
-      en: "Ongoing self-study in AI and machine learning integration, AI agents and automation, plus reverse engineering and databases. Learning through trial and error and by building real projects.",
-      ru: "Постоянное самообучение: интеграция ИИ и машинного обучения, ИИ-агенты и автоматизация, а также reverse engineering и базы данных. Учусь на ошибках и на реальных проектах.",
     },
   },
 ]
@@ -183,21 +183,21 @@ export const cvHackathons: { icon: "Trophy" | "Gamepad2"; title: Bi; href: strin
     },
   },
   {
-    icon: "Trophy",
-    title: { en: "Constellation Hackathon 2023", ru: "Constellation Hackathon 2023" },
-    href: "https://github.com/ruffbuff/Hackathon-2023-DynamicAI",
-    text: {
-      en: 'Developed "DynamicAI" - An innovative blockchain-based AI solution that integrates machine learning with smart contracts. Won first place among 200+ participants for technical innovation and implementation quality.',
-      ru: 'Разработал "DynamicAI" — блокчейн-решение с ИИ, объединяющее машинное обучение и смарт-контракты. Первое место среди 200+ участников за техническую инновацию и качество реализации.',
-    },
-  },
-  {
     icon: "Gamepad2",
     title: { en: "BlockMagic Hackathon 2024", ru: "BlockMagic Hackathon 2024" },
     href: "https://github.com/ruffbuff/Hackathon-2024-OnChainTTT",
     text: {
       en: 'Created "OnChainTTT" - A fully decentralized Tic-Tac-Toe game on Polygon blockchain. Implemented Chainlink VRF for provably fair randomness and automated game state management. Secured top 10 position in competitive gaming track.',
       ru: 'Создал "OnChainTTT" — полностью децентрализованные крестики-нолики на блокчейне Polygon. Использовал Chainlink VRF для честной случайности и автоматическое управление состоянием игры. Топ-10 в игровом треке.',
+    },
+  },
+  {
+    icon: "Trophy",
+    title: { en: "Constellation Hackathon 2023", ru: "Constellation Hackathon 2023" },
+    href: "https://github.com/ruffbuff/Hackathon-2023-DynamicAI",
+    text: {
+      en: 'Developed "DynamicAI" - An innovative blockchain-based AI solution that integrates machine learning with smart contracts. Won first place among 200+ participants for technical innovation and implementation quality.',
+      ru: 'Разработал "DynamicAI" — блокчейн-решение с ИИ, объединяющее машинное обучение и смарт-контракты. Первое место среди 200+ участников за техническую инновацию и качество реализации.',
     },
   },
 ]

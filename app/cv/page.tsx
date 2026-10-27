@@ -17,9 +17,6 @@ export const metadata: Metadata = { title: 'CV' }
 
 const ICONS: Record<string, LucideIcon> = { Laptop, Gamepad2, Link2, HardHat, Trophy }
 
-// Stages of the former /work "experience" block (texts live in the translations).
-const journey = ['basics', 'trading', 'smart', 'fullstack']
-
 
 function Timeline({ items }: { items: Item[] }) {
   return (
@@ -117,32 +114,13 @@ export default function CvPage() {
             </div>
           </section>
 
-          <section aria-label="Journey">
-            <SectionHeading index="03" eyebrow={<T k="cv.journey.eyebrow" />} title={<T k="experience.title" />} />
-            <ol className="relative space-y-5 pl-6 sm:pl-10">
-              <span className="tl-line" aria-hidden />
-              {journey.map((j) => (
-                <li key={j} className="relative">
-                  <span className="absolute -left-[1.85rem] top-7 size-3 rounded-full border-2 border-background bg-gradient-to-br from-[var(--amber)] to-[var(--pink)] shadow-[0_0_14px_var(--pink)] sm:-left-[2.85rem]" />
-                  <Reveal>
-                    <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-5 transition-colors hover:border-white/20 sm:p-6">
-                      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary"><T k={`experience.${j}.period`} /></p>
-                      <h3 className="mt-2 text-xl font-medium tracking-[-0.03em] sm:text-2xl"><T k={`experience.${j}.title`} /></h3>
-                      <p className="mt-3 text-sm leading-6 text-muted-foreground"><T k={`experience.${j}.description`} /></p>
-                    </div>
-                  </Reveal>
-                </li>
-              ))}
-            </ol>
-          </section>
-
           <section aria-label="Education">
-            <SectionHeading index="04" eyebrow={<T k="cv.education.eyebrow" />} title={<T k="cv.education.title" />} />
+            <SectionHeading index="03" eyebrow={<T k="cv.education.eyebrow" />} title={<T k="cv.education.title" />} />
             <Timeline items={cvEducation} />
           </section>
 
           <section aria-label="Skills">
-            <SectionHeading index="05" eyebrow={<T k="cv.skills.eyebrow" />} title={<T k="cv.skills.title" />} />
+            <SectionHeading index="04" eyebrow={<T k="cv.skills.eyebrow" />} title={<T k="cv.skills.title" />} />
             <div className="grid gap-3 sm:grid-cols-2">
               {cvCoreLanguages.map((l) => (
                 <Reveal key={l.name}>
@@ -164,7 +142,7 @@ export default function CvPage() {
           </section>
 
           <section aria-label="Hackathons">
-            <SectionHeading index="06" eyebrow={<T k="cv.hackathons.eyebrow" />} title={<T k="cv.hackathons.title" />} />
+            <SectionHeading index="05" eyebrow={<T k="cv.hackathons.eyebrow" />} title={<T k="cv.hackathons.title" />} />
             <div className="grid gap-4 md:grid-cols-2">
               {cvHackathons.map((h) => (
                 <Reveal key={h.title.en}>
