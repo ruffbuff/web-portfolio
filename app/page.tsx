@@ -62,9 +62,6 @@ export default function Page() {
                 <T k="home.cta.projects" /> <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
             </Magnetic>
-            <Magnetic strength={0.2}>
-              <Link href="/changelog" className="btn-ghost"><T k="home.cta.changelog" /></Link>
-            </Magnetic>
           </div>
         </div>
 

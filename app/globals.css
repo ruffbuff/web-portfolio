@@ -485,7 +485,7 @@ html.has-cursor-fx .cursor-ring { display: block; }
 }
 .row-link:hover::before { opacity: 1; transform: none; }
 
-/* ---------- Timeline (changelog detail) ---------- */
+/* ---------- Timeline (CV) ---------- */
 .tl-line {
   position: absolute;
   left: 0; top: 0; bottom: 0;
@@ -507,78 +507,4 @@ html.has-cursor-fx .cursor-ring { display: block; }
   .magnetic { transition: none; }
 }
 
-/* ---------- Markdown (changelog entries) ---------- */
-.prose-rb {
-  @apply text-[15px] leading-7 text-foreground/85;
-}
-.prose-rb > * + * {
-  margin-top: 1rem;
-}
-.prose-rb h3 {
-  @apply mt-6 text-lg font-medium tracking-tight text-foreground;
-}
-.prose-rb h4 {
-  @apply mt-5 text-base font-medium text-foreground;
-}
-.prose-rb a {
-  @apply text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:decoration-primary;
-}
-.prose-rb ul {
-  @apply list-disc space-y-1.5 pl-5 marker:text-primary/70;
-}
-.prose-rb ol {
-  @apply list-decimal space-y-1.5 pl-5 marker:text-muted-foreground;
-}
-.prose-rb strong {
-  @apply font-semibold text-foreground;
-}
-.prose-rb blockquote {
-  @apply border-l-2 border-primary/50 pl-4 italic text-muted-foreground;
-}
-.prose-rb code {
-  @apply rounded-md border border-border bg-secondary px-1.5 py-0.5 font-mono text-[0.85em];
-}
-.prose-rb pre {
-  @apply overflow-x-auto rounded-xl border border-border bg-black/40 p-4 text-[13px] leading-6;
-}
-.prose-rb pre code {
-  @apply border-0 bg-transparent p-0;
-}
-.prose-rb hr {
-  @apply border-border;
-}
-.prose-rb table {
-  @apply w-full text-left text-sm;
-}
-.prose-rb th,
-.prose-rb td {
-  @apply border-b border-border px-2 py-2;
-}
-
 @keyframes scroll-cue { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
-
-/* ---------- Changelog sections (Added / Changed / Fixed / ...) ---------- */
-.cl-section { --tone: oklch(0.8 0.1 250); }
-.cl-added { --tone: oklch(0.8 0.18 150); }
-.cl-changed { --tone: oklch(0.78 0.13 235); }
-.cl-fixed { --tone: oklch(0.82 0.16 75); }
-.cl-removed { --tone: oklch(0.7 0.21 25); }
-.cl-security { --tone: oklch(0.72 0.2 320); }
-.cl-deprecated { --tone: oklch(0.72 0.03 260); }
-.cl-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-bottom: 0.6rem;
-  padding: 0.2rem 0.65rem 0.2rem 0.5rem;
-  border-radius: 9999px;
-  border: 1px solid color-mix(in oklab, var(--tone) 40%, transparent);
-  background: color-mix(in oklab, var(--tone) 14%, transparent);
-  color: var(--tone);
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-.cl-section .prose-rb li::marker { color: var(--tone); }

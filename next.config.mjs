@@ -8,8 +8,11 @@ const nextConfig = {
     return [
       { source: '/skills', destination: '/', permanent: true },
       { source: '/work', destination: '/', permanent: true },
-      { source: '/backlogs', destination: '/changelog', permanent: true },
-      { source: '/backlogs/:slug', destination: '/changelog', permanent: true },
+      { source: '/backlogs', destination: '/projects', permanent: true },
+      { source: '/backlogs/:slug', destination: '/projects', permanent: true },
+      // Changelog now lives on the sites of the products themselves.
+      { source: '/changelog', destination: '/projects', permanent: false },
+      { source: '/changelog/:slug', destination: '/projects', permanent: false },
     ]
   },
 }

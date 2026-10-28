@@ -12,7 +12,6 @@ type Entry = { en: string; ru: string }
 
 export const extraTranslations: Record<string, Entry> = {
   // ── navigation / chrome ──
-  "nav.changelog": { en: "Changelog", ru: "Журнал изменений" },
   "nav.contact": { en: "Contact", ru: "Контакты" },
   "nav.language": { en: "Language", ru: "Язык" },
   "nav.menu": { en: "Menu", ru: "Меню" },
@@ -26,7 +25,6 @@ export const extraTranslations: Record<string, Entry> = {
     ru: "RuffBuff — блокчейн и IT разработчик. Смарт-контракты и красивые, функциональные сайты.",
   },
   "home.cta.projects": { en: "View my work", ru: "Смотреть работы" },
-  "home.cta.changelog": { en: "Read changelog", ru: "Читать changelog" },
   "home.scroll": { en: "Scroll", ru: "Листай" },
 
   // ── home: facts (derived from the CV data; TODO(owner): adjust wording) ──
@@ -129,36 +127,4 @@ export const extraTranslations: Record<string, Entry> = {
   "github.noRepos": { en: "No featured repositories yet.", ru: "Пока нет избранных репозиториев." },
   "github.noDescription": { en: "No description yet.", ru: "Описания пока нет." },
   "github.updated": { en: "Updated", ru: "Обновлён" },
-
-
-  // ── changelog ──
-  "changelog.eyebrow": { en: "Work in public", ru: "Работа в открытую" },
-  "changelog.heading": { en: "Changelog.", ru: "Changelog." },
-  "changelog.description": {
-    en: "What changed in my projects and when. Pulled straight from each project's CHANGELOG.md.",
-    ru: "Что и когда менялось в моих проектах. Берётся прямо из CHANGELOG.md каждого проекта.",
-  },
-  "changelog.empty": { en: "No projects in the changelog yet.", ru: "Проектов в changelog пока нет." },
-  "changelog.back": { en: "All changelogs", ru: "Все changelog" },
-  "changelog.started": { en: "since", ru: "с" },
-  "changelog.updated": { en: "updated", ru: "обновлён" },
-  "changelog.log": { en: "Log", ru: "Журнал" },
-  "changelog.noEntries": { en: "No entries yet.", ru: "Записей пока нет." },
-  "changelog.entriesNav": { en: "Entries", ru: "Записи" },
-  "changelog.entry": { en: "entry", ru: "запись" },
-  "changelog.entries": { en: "entries", ru: "записей" },
-  "changelog.private": { en: "private repo", ru: "приватный репо" },
-  "changelog.privateHint": { en: "The source code is private, only the changelog is public.", ru: "Исходный код приватный, публично только changelog." },
-  "changelog.repo": { en: "Repository", ru: "Репозиторий" },
-  "changelog.unavailable": { en: "Changelog temporarily unavailable", ru: "Changelog временно недоступен" },
-  "changelog.unavailableHint": { en: "Could not load it from GitHub right now. The page re-checks itself every few minutes, please check back later.", ru: "Сейчас не удалось загрузить его с GitHub. Страница сама перепроверит это через несколько минут, загляни позже." },
-  "changelog.err.empty": { en: "CHANGELOG.md has no entries in a supported format.", ru: "В CHANGELOG.md нет записей в поддерживаемом формате." },
-  "changelog.err.no-token": { en: "The server has no GitHub token, and this repository is private.", ru: "На сервере не задан токен GitHub, а репозиторий приватный." },
-  "changelog.err.not-found": { en: "Not found: either CHANGELOG.md is missing on this branch, or the token has no access to the repository (Contents: Read).", ru: "Не найдено: либо нет CHANGELOG.md в этой ветке, либо у токена нет доступа к репозиторию (Contents: Read)." },
-  "changelog.err.auth": { en: "GitHub refused the token (expired, revoked or without access).", ru: "GitHub отклонил токен (истёк, отозван или нет доступа)." },
-  "changelog.err.rate-limit": { en: "GitHub rate limit reached. It will retry soon.", ru: "Достигнут лимит запросов GitHub. Скоро повторю попытку." },
-  "changelog.err.network": { en: "GitHub did not respond. It will retry soon.", ru: "GitHub не ответил. Скоро повторю попытку." },
-  "changelog.status.open": { en: "open", ru: "в работе" },
-  "changelog.status.closed": { en: "closed", ru: "закрыт" },
-  "changelog.status.soon": { en: "soon", ru: "скоро" },
 }
