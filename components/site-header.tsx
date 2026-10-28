@@ -9,7 +9,6 @@ import { useLanguage } from '@/components/language-provider'
 
 const links = [
   { href: '/projects', key: 'nav.projects' },
-  { href: '/changelog', key: 'nav.changelog' },
   { href: '/cv', key: 'nav.cv' },
 ]
 

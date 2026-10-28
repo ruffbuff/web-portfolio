@@ -1,5 +1,3 @@
-import type { ChangelogStatus } from "@/lib/changelog-sources"
-
 export type Lang = "en" | "ru"
 
 /** 27 Oct 2026 / 27 окт. 2026 г. — client-safe (does not import fs). */
@@ -10,10 +8,4 @@ export function formatDate(date: string, lang: Lang = "en"): string {
     year: "numeric",
     timeZone: "UTC",
   })
-}
-
-export const STATUS_KEY: Record<ChangelogStatus, string> = {
-  open: "changelog.status.open",
-  closed: "changelog.status.closed",
-  soon: "changelog.status.soon",
 }

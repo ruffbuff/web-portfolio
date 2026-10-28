@@ -123,8 +123,8 @@ export const cvExperience: Item[] = [
     title: { en: "AI, Automation & Own Projects", ru: "ИИ, автоматизация и собственные проекты" },
     period: "2026 - Present",
     text: {
-      en: "Working with AI, automation and AI agents, and putting together assorted projects on these topics. Alongside that I develop my own projects on various themes: see the Projects and Changelog pages. Currently focused on AI, databases, reverse engineering and various backend work.",
-      ru: "Занимаюсь ИИ, автоматизацией и ИИ-агентами, собираю разные проекты на эти темы. Параллельно разрабатываю собственные проекты на разные тематики: смотри страницы Projects и Changelog. Сейчас в фокусе ИИ, базы данных, reverse engineering и разный бэкенд.",
+      en: "Working with AI, automation and AI agents, and putting together assorted projects on these topics. Alongside that I develop my own projects on various themes: see the Projects page. Currently focused on AI, databases, reverse engineering and various backend work.",
+      ru: "Занимаюсь ИИ, автоматизацией и ИИ-агентами, собираю разные проекты на эти темы. Параллельно разрабатываю собственные проекты на разные тематики: смотри страницу Projects. Сейчас в фокусе ИИ, базы данных, reverse engineering и разный бэкенд.",
     },
     highlight: true,
   },

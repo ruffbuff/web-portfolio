@@ -430,7 +430,7 @@ export const translations: Translations = {
     ru: "Связаться со мной",
   },
 
-  // Redesign v2 strings (nav, home, projects, changelog, cv, ...) live in lib/translations-v2.ts
+  // Redesign v2 strings (nav, home, projects, cv, ...) live in lib/translations-v2.ts
   ...extraTranslations,
 }
 

@@ -2,6 +2,11 @@
 
 Notable changes to the portfolio site, newest first.
 
+## 2026-10-27 — Removed changelog pages
+
+- The `/changelog` and `/changelog/<slug>` pages, their components, the GitHub changelog loader and `POST /api/revalidate` are removed: changelogs now live on the sites of the products themselves. `/changelog` redirects to `/projects`.
+- The CV no longer mentions the Changelog page.
+
 ## 2026-10-27 — Fixes v5
 
 - CV: education is ordered newest first (by start year), like experience; competitions too. The duplicate old "Experience" block (journey) is gone from the page; the English and Russian PDFs have a single experience section.

@@ -1,6 +1,6 @@
 import { ArrowUpRight } from 'lucide-react'
 import { Spotlight } from '@/components/spotlight'
-import { TagList } from '@/components/status-badge'
+import { TagList } from '@/components/tag-list'
 import type { Project } from '@/lib/projects'
 import { cn } from '@/lib/utils'
 
